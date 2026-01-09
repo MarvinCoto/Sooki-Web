@@ -1,0 +1,38 @@
+/backend/.env
+/backend/public
+/backend/uploads
+/backend/node_modules
+/frontend/public/node_modules
+/frontend/private/node_modules
+
+# misc
+*.txt
+.DS_Store
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+*.env
+
+# Logs
+logs
+*.log
+
+pnpm-debug.log*
+lerna-debug.log*
+
+
+dist
+dist-ssr
+*.local
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
