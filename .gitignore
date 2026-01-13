@@ -1,9 +1,8 @@
 /backend/.env
 /backend/public
 /backend/uploads
-/backend/node_modules
-/frontend/public/node_modules
-/frontend/private/node_modules
+node_modules/
+
 
 # misc
 *.txt
