@@ -4,6 +4,7 @@ import Stepper from "../components/registerStore/Stepper";
 import Step1BasicInfo from "../components/RegisterStore/Step1BasicInfo";
 import Step2Design from "../components/registerStore/Step2Design";
 import Step3Credentials from "../components/registerStore/Step3Credentials";
+import Step4VerifyEmail from "../components/registerStore/Step4VerifyEmail";
 import "../styles/registerStore.css";
 
 const RegisterStoreScreen = () => {
@@ -12,6 +13,7 @@ const RegisterStoreScreen = () => {
         loading,
         error,
         success,
+        registeredEmail,
         step1,
         step2,
         step3,
@@ -23,6 +25,7 @@ const RegisterStoreScreen = () => {
         updateStep3,
         updateColor,
         handleSubmit,
+        handleVerifySuccess,
     } = useRegisterStore();
 
     const { errors, clearErrors, validateStep1, validateStep3 } = useRegisterStoreForm();
@@ -32,7 +35,7 @@ const RegisterStoreScreen = () => {
         if (step === 1) {
             if (validateStep1(step1)) nextStep();
         } else if (step === 2) {
-            nextStep(); // step 2 has no required fields
+            nextStep();
         }
     };
 
@@ -49,10 +52,6 @@ const RegisterStoreScreen = () => {
                         <div className="success-icon">✓</div>
                         <h2>¡Tienda registrada!</h2>
                         <p>Tu tienda ha sido creada exitosamente.</p>
-                        {/* TODO: uncomment when login route is ready */}
-                        {/* <button className="btn-primary" onClick={() => navigate("/login")}>
-                            Ir al Login
-                        </button> */}
                         <button
                             className="btn-primary"
                             onClick={() => window.location.href = "/login"}
@@ -69,25 +68,17 @@ const RegisterStoreScreen = () => {
         <div className="register-page">
             <div className="register-card">
 
-                {/* Header */}
                 <div className="register-header">
                     <h1>Registro de Nueva Tienda</h1>
                     <p>Complete los siguientes pasos para configurar su tienda</p>
                 </div>
 
-                {/* Stepper */}
                 <Stepper currentStep={step} />
 
-                {/* Error banner */}
                 {error && <div className="error-banner">{error}</div>}
 
-                {/* Steps */}
                 {step === 1 && (
-                    <Step1BasicInfo
-                        data={step1}
-                        errors={errors}
-                        onChange={updateStep1}
-                    />
+                    <Step1BasicInfo data={step1} errors={errors} onChange={updateStep1} />
                 )}
                 {step === 2 && (
                     <Step2Design
@@ -98,34 +89,37 @@ const RegisterStoreScreen = () => {
                     />
                 )}
                 {step === 3 && (
-                    <Step3Credentials
-                        data={step3}
-                        errors={errors}
-                        onChange={updateStep3}
+                    <Step3Credentials data={step3} errors={errors} onChange={updateStep3} />
+                )}
+                {step === 4 && (
+                    <Step4VerifyEmail
+                        email={registeredEmail}
+                        onSuccess={handleVerifySuccess}
                     />
                 )}
 
-                {/* Navigation buttons */}
-                <div className="btn-row">
-                    {step > 1 && (
-                        <button className="btn-secondary" onClick={prevStep}>
-                            Anterior
-                        </button>
-                    )}
-                    {step < 3 ? (
-                        <button className="btn-primary" onClick={handleNext}>
-                            Continuar
-                        </button>
-                    ) : (
-                        <button
-                            className="btn-primary"
-                            onClick={handleFinish}
-                            disabled={loading}
-                        >
-                            {loading ? "Registrando..." : "Finalizar Registro"}
-                        </button>
-                    )}
-                </div>
+                {step < 4 && (
+                    <div className="btn-row">
+                        {step > 1 && (
+                            <button className="btn-secondary" onClick={prevStep}>
+                                Anterior
+                            </button>
+                        )}
+                        {step < 3 ? (
+                            <button className="btn-primary" onClick={handleNext}>
+                                Continuar
+                            </button>
+                        ) : (
+                            <button
+                                className="btn-primary"
+                                onClick={handleFinish}
+                                disabled={loading}
+                            >
+                                {loading ? "Enviando código..." : "Finalizar Registro"}
+                            </button>
+                        )}
+                    </div>
+                )}
 
             </div>
         </div>

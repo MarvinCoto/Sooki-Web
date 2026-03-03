@@ -2,6 +2,7 @@
 /backend/public
 /backend/uploads
 node_modules/
+.vscode/
 
 
 # misc

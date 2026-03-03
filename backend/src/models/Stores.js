@@ -50,6 +50,10 @@ const storesSchema = new Schema({
     design: {
         type: String
         // Ver si es necesario poner un diseño default de alguna manera
+    },
+    isVerified: {
+        type: Boolean,
+        default: false
     }
 }, {
     timestamps: true,

@@ -5,11 +5,18 @@ import upload from "../middlewares/uploadLogo.js";
 
 const router = express.Router();
 
-router.route("/insertStore")
-    .post(
-        upload.single("logo"),       // 1. Sube imagen a Cloudinary
-        storesValidation.validate,   // 2. Valida el resto de campos
-        storesController.insertStores // 3. Guarda en DB
-    );
+// Registro — sube imagen, valida, guarda en memoria y envía correo
+router.post(
+    "/insertStore",
+    upload.single("logo"),
+    storesValidation.validate,
+    storesController.insertStores
+);
+
+// Verificar código de 6 dígitos
+router.post("/verifyEmail", storesController.verifyEmail);
+
+// Reenviar código
+router.post("/resendCode", storesController.resendCode);
 
 export default router;

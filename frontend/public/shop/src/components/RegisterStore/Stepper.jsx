@@ -4,6 +4,7 @@ const steps = [
     { number: 1, label: "Información Básica" },
     { number: 2, label: "Diseño y Plantilla" },
     { number: 3, label: "Credenciales" },
+    { number: 4, label: "Verificación" },
 ];
 
 const Stepper = ({ currentStep }) => {

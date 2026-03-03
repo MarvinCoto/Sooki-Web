@@ -21,8 +21,8 @@ export const useRegisterStore = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [success, setSuccess] = useState(false);
+    const [registeredEmail, setRegisteredEmail] = useState("");
 
-    // Step 1 data
     const [step1, setStep1] = useState({
         storeName: "",
         logo: null,
@@ -33,13 +33,11 @@ export const useRegisterStore = () => {
         location: "",
     });
 
-    // Step 2 data
     const [step2, setStep2] = useState({
         design: "minimalista",
         colors: [getRandomColor(), getRandomColor(), getRandomColor()],
     });
 
-    // Step 3 data
     const [step3, setStep3] = useState({
         email: "",
         username: "",
@@ -47,15 +45,13 @@ export const useRegisterStore = () => {
         confirmPassword: "",
     });
 
-    const nextStep = () => setStep((s) => Math.min(s + 1, 3));
+    const nextStep = () => setStep((s) => Math.min(s + 1, 4));
     const prevStep = () => setStep((s) => Math.max(s - 1, 1));
 
     const updateStep1 = (field, value) =>
         setStep1((prev) => ({ ...prev, [field]: value }));
-
     const updateStep2 = (field, value) =>
         setStep2((prev) => ({ ...prev, [field]: value }));
-
     const updateStep3 = (field, value) =>
         setStep3((prev) => ({ ...prev, [field]: value }));
 
@@ -85,10 +81,9 @@ export const useRegisterStore = () => {
             formData.append("password", step3.password);
 
             await registerStoreService(formData);
-            setSuccess(true);
 
-            // TODO: redirect to login when login route is ready
-            // navigate("/login");
+            setRegisteredEmail(step3.email);
+            setStep(4);
         } catch (err) {
             setError(err.message);
         } finally {
@@ -96,11 +91,16 @@ export const useRegisterStore = () => {
         }
     };
 
+    const handleVerifySuccess = () => {
+        setSuccess(true);
+    };
+
     return {
         step,
         loading,
         error,
         success,
+        registeredEmail,
         step1,
         step2,
         step3,
@@ -112,5 +112,6 @@ export const useRegisterStore = () => {
         updateStep3,
         updateColor,
         handleSubmit,
+        handleVerifySuccess,
     };
 };
