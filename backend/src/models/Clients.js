@@ -91,7 +91,7 @@ const clientsSchema = new Schema({
         required: false     // Campo opcional
     },
 
-    /* ARRAYS DE REFERENCIA A OTROS DOCUMENTOS favoritos queda pendiente ya que el modelo de productos aún no se ha definidos
+    //ARRAY DE FAVORITOS
     favorites: [
         {
             idProduct: {
@@ -100,7 +100,7 @@ const clientsSchema = new Schema({
                 required: false,              // Campo opcional
             },
         },
-    ],*/
+    ],
 
 }, {
     // OPCIONES DEL ESQUEMA
