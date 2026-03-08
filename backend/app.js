@@ -1,7 +1,12 @@
 // Importo todo lo de la librería de Express
 import express from "express";
-import storesRoutes from "./src/routes/stores.js";
+import cookieParser from "cookie-parser";
 import cors from "cors";
+import loginRoutes from "./src/routes/login.js"
+import logoutRoutes from "./src/routes/logout.js"
+import registerClientsRoutes from "./src/routes/registerClients.js"
+import recoveryPasswordRoutes from "./src/routes/recoveryPassword.js"
+import storesRoutes from "./src/routes/stores.js";
 
 //Creo una constante que es igual a la librería que importé
 const app = express();
@@ -13,8 +18,16 @@ app.use(cors({
 }));
 app.use(express.urlencoded({ extended: true }));
 
+// 3. Cookie parser
+app.use(cookieParser());
+
 
 app.use("/api/stores", storesRoutes);
+
+app.use("/api/login", loginRoutes);
+app.use("/api/logout", logoutRoutes);
+app.use("/api/registerClients", registerClientsRoutes);
+app.use("/api/recoveryPassword", recoveryPasswordRoutes)
 
 //Exporto la constante para poder usar express en otros archivos
 export default app;
