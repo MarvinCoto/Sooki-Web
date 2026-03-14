@@ -1,33 +1,33 @@
 import { Schema, model } from "mongoose";
 
 const productSchema = new Schema({
-    nombre: {
+    name: {
         type: String,
         required: true,
         trim: true,
         minlength: [2, "Product name must be at least 2 characters"],
         maxlength: [200, "Product name cannot exceed 200 characters"]
     },
-    descripcion: {
+    description: {
         type: String,
         trim: true,
         maxlength: [1000, "Description cannot exceed 1000 characters"]
     },
-    idCategoria: {
+    categoryId: {
         type: Schema.Types.ObjectId,
         ref: "Categories",
         required: true
     },
-    idTienda: {
+    storeId: {
         type: Schema.Types.ObjectId,
         ref: "Stores",
         required: true
     },
-    imagenes: {
+    images: {
         type: [String],
         default: []
     },
-    precio_base: {
+    basePrice: {
         type: Number,
         required: true,
         min: [0, "Price cannot be negative"]
@@ -50,7 +50,7 @@ const productSchema = new Schema({
             default: false
         }
     },
-    estado: {
+    status: {
         type: Boolean,
         default: true
     }

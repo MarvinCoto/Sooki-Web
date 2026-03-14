@@ -1,7 +1,7 @@
 import { Schema, model } from "mongoose";
 
 const variantSchema = new Schema({
-    idProducto: {
+    productId: {
         type: Schema.Types.ObjectId,
         ref: "Products",
         required: true
@@ -12,12 +12,12 @@ const variantSchema = new Schema({
         min: [0, "Stock cannot be negative"],
         default: 0
     },
-    precio: {
+    price: {
         type: Number,
         required: true,
         min: [0, "Price cannot be negative"]
     },
-    estado: {
+    status: {
         type: Boolean,
         default: true
     }
