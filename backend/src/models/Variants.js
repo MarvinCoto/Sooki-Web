@@ -1,7 +1,7 @@
 import { Schema, model } from "mongoose";
 
 const variantSchema = new Schema({
-    productId: {
+    idProduct: {
         type: Schema.Types.ObjectId,
         ref: "Products",
         required: true

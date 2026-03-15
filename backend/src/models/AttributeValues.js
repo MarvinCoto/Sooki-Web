@@ -1,7 +1,7 @@
 import { Schema, model } from "mongoose";
 
 const attributeValueSchema = new Schema({
-    attributeId: {
+    idAttribute: {
         type: Schema.Types.ObjectId,
         ref: "Attributes",
         required: true

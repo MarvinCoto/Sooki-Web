@@ -8,7 +8,7 @@ const attributeSchema = new Schema({
         minlength: [2, "Attribute name must be at least 2 characters"],
         maxlength: [50, "Attribute name cannot exceed 50 characters"]
     },
-    storeId: {
+    idStore: {
         type: Schema.Types.ObjectId,
         ref: "Stores",
         required: true

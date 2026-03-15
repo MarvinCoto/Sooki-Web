@@ -5,6 +5,9 @@ import upload from "../middlewares/uploadLogo.js";
 
 const router = express.Router();
 
+// GET todas las tiendas verificadas
+router.get("/", storesController.getAllStores);
+
 // Registro — sube imagen, valida, guarda en memoria y envía correo
 router.post(
     "/insertStore",

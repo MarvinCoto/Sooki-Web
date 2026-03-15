@@ -1,0 +1,242 @@
+/* ===== FOOTER ===== */
+.footer {
+  background-color: #1B2B44;
+  color: #cbd5e1;
+  position: relative;
+  overflow: hidden;
+}
+
+.footer-container {
+  display: grid;
+  grid-template-columns: 1.6fr 0.7fr 1fr 1.1fr;
+  gap: 32px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 32px 32px;
+  position: relative;
+  z-index: 1;
+}
+
+/* ===== COLUMNA 1: BRAND ===== */
+.footer-col-brand {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.footer-logo {
+  text-decoration: none;
+  flex-shrink: 0;
+}
+
+.footer-logo-img {
+  height: 64px;
+  width: auto;
+  object-fit: contain;
+}
+
+.footer-brand-tagline {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #cbd5e1;
+  margin: 0;
+}
+
+.footer-socials {
+  display: flex;
+  gap: 16px;
+}
+
+.footer-social-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  text-decoration: none;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.footer-social-link:hover {
+  background-color: #FF8C42;
+  color: #fff;
+}
+
+/* ===== COLUMNAS GENERALES ===== */
+.footer-col {
+  display: flex;
+  flex-direction: column;
+}
+
+.footer-col-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 14px;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  text-decoration-color: #FF8C42;
+}
+
+/* ===== EXPLORAR ===== */
+.footer-links-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.footer-link {
+  text-decoration: none;
+  color: #cbd5e1;
+  font-size: 0.88rem;
+  transition: color 0.2s;
+}
+
+.footer-link:hover {
+  color: #FF8C42;
+}
+
+/* ===== CONTACTO ===== */
+.footer-contact-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.footer-contact-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 0.87rem;
+  color: #cbd5e1;
+  line-height: 1.4;
+}
+
+.footer-contact-icon {
+  font-size: 0.9rem;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+/* ===== NEWSLETTER ===== */
+.footer-col-newsletter {
+  position: relative;
+}
+
+.footer-newsletter-desc {
+  font-size: 0.85rem;
+  color: #cbd5e1;
+  margin-bottom: 16px;
+  line-height: 1.5;
+}
+
+.footer-newsletter-btn {
+  padding: 11px 28px;
+  background-color: #fff;
+  color: #1B2B44;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s;
+  width: auto;
+  align-self: flex-start;
+}
+
+.footer-newsletter-btn:hover {
+  background-color: #FF8C42;
+  color: #fff;
+}
+
+/* ===== MONTAÑA ===== */
+.footer-mountain-img {
+  position: absolute;
+  bottom: 24px;
+  right: -10px;
+  width: 320px;
+  height: auto;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ===== FOOTER BOTTOM ===== */
+.footer-bottom {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  position: relative;
+  z-index: 1;
+}
+
+.footer-bottom-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 14px 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 32px;
+  flex-wrap: wrap;
+}
+
+.footer-copyright {
+  font-size: 0.82rem;
+  color: #8899aa;
+}
+
+.footer-legal-links {
+  display: flex;
+  gap: 24px;
+}
+
+.footer-legal-link {
+  font-size: 0.82rem;
+  color: #8899aa;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.footer-legal-link:hover {
+  color: #FF8C42;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 1024px) {
+  .footer-container {
+    grid-template-columns: 1fr 1fr;
+    gap: 28px;
+  }
+  .footer-mountain-img {
+    width: 200px;
+  }
+}
+
+@media (max-width: 640px) {
+  .footer-container {
+    grid-template-columns: 1fr;
+    padding: 32px 20px 24px;
+    gap: 24px;
+  }
+  .footer-brand-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .footer-bottom-inner {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 14px 20px;
+    gap: 8px;
+  }
+  .footer-mountain-img {
+    display: none;
+  }
+}

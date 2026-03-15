@@ -7,10 +7,10 @@ dotenv.config();
 
 export const config = {
     db: {
-        uri: process.env.DB_URI ,
+        uri: process.env.DB_URI,
     },
     server: {
-        port: process.env.PORT ,
+        port: process.env.PORT,
     },
     jwt: {
         secret: process.env.JWT_SECRET,

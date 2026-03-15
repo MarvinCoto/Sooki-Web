@@ -5,6 +5,17 @@ import { savePendingStore, getPendingStore, deletePendingStore } from "../utils/
 
 const storeController = {};
 
+//SELECT
+storeController.getAllStores = async(req, res) => {
+    try {
+        const stores = await storeModel.find()
+        res.status(200).json(stores)
+    } catch (error) {
+        console.log("error" + error)
+        res.status(500).json({message: "Internal server error"})
+    }
+}
+
 // Genera código de 6 dígitos
 const generateCode = () => Math.floor(100000 + Math.random() * 900000).toString();
 

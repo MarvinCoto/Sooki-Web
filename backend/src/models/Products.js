@@ -13,12 +13,12 @@ const productSchema = new Schema({
         trim: true,
         maxlength: [1000, "Description cannot exceed 1000 characters"]
     },
-    categoryId: {
+    idCategory: {
         type: Schema.Types.ObjectId,
         ref: "Categories",
         required: true
     },
-    storeId: {
+    idStore: {
         type: Schema.Types.ObjectId,
         ref: "Stores",
         required: true

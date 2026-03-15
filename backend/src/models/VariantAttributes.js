@@ -1,17 +1,17 @@
 import { Schema, model } from "mongoose";
 
 const variantAttributeSchema = new Schema({
-    variantId: {
+    idVariant: {
         type: Schema.Types.ObjectId,
         ref: "Variants",
         required: true
     },
-    attributeId: {
+    idAttribute: {
         type: Schema.Types.ObjectId,
         ref: "Attributes",
         required: true
     },
-    valueId: {
+    idValue: {
         type: Schema.Types.ObjectId,
         ref: "AttributeValues",
         required: true

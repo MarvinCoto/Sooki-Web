@@ -8,7 +8,7 @@ const categorySchema = new Schema({
         minlength: [2, "Category name must be at least 2 characters"],
         maxlength: [100, "Category name cannot exceed 100 characters"]
     },
-    storeId: {
+    idStore: {
         type: Schema.Types.ObjectId,
         ref: "Stores",
         required: true
