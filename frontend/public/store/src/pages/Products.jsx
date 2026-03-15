@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from 'react';
-import CardProduct from '../Components/Products/CardProduct';
+import CardProduct from '../components/Products/CardProduct';
 import useDataProducts from '../hooks/Products/useDataProducts';
-import useDataCategories from '../Hooks/Categories/useDataCategories';
+import useDataCategories from '../hooks/Categories/useDataCategories';
 import './Products.css';
 
 const PRODUCTS_PER_PAGE = 9;
