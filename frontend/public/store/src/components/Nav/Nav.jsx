@@ -70,11 +70,11 @@ const Nav = () => {
         <nav className="nav-menu">
           <div className="nav-menu-container">
             <Link to="/" className="nav-menu-link">Home</Link>
-            <Link to="/productos" className="nav-menu-link">Productos</Link>
-            <Link to="/categorias" className="nav-menu-link">Categorías</Link>
-            <Link to="/tiendas" className="nav-menu-link">Tiendas</Link>
-            <Link to="/acerca-de" className="nav-menu-link">Acerca de</Link>
-            <Link to="/contacto" className="nav-menu-link">Contáctanos</Link>
+            <Link to="/products" className="nav-menu-link">Productos</Link>
+            <Link to="/categories" className="nav-menu-link">Categorías</Link>
+            <Link to="/stores" className="nav-menu-link">Tiendas</Link>
+            <Link to="/aboutUs" className="nav-menu-link">Acerca de</Link>
+            <Link to="/contactUs" className="nav-menu-link">Contáctanos</Link>
           </div>
         </nav>
       </header>

@@ -1,0 +1,174 @@
+/* ===== PAGE ===== */
+.about-page {
+  min-height: calc(100vh - 120px);
+  background-color: #f8fafc;
+  padding: 48px 0 64px;
+}
+
+.about-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 64px;
+}
+
+/* ===== BLOQUES MISIÓN / VISIÓN ===== */
+.about-block {
+  display: grid;
+  align-items: center;
+  gap: 48px;
+}
+
+.about-block--right {
+  grid-template-columns: 1fr 1fr;
+}
+
+.about-block--left {
+  grid-template-columns: 1fr 1fr;
+}
+
+/* Texto */
+.about-text {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.about-text--right {
+  text-align: right;
+}
+
+.about-text p,
+.about-text--right p {
+  font-size: 0.95rem;
+  color: #475569;
+  line-height: 1.75;
+}
+
+/* Imagen */
+.about-image {
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+}
+
+.about-image img {
+  width: 100%;
+  height: 240px;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.4s;
+}
+
+.about-image:hover img {
+  transform: scale(1.03);
+}
+
+/* ===== SUBTÍTULOS ===== */
+.about-subtitle {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: #FF8C42;
+  margin: 0;
+}
+
+.about-subtitle--center {
+  text-align: center;
+}
+
+/* ===== HISTORIA ===== */
+.about-history {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+}
+
+.about-history-text {
+  font-size: 0.95rem;
+  color: #475569;
+  line-height: 1.8;
+  text-align: center;
+  max-width: 680px;
+}
+
+/* ===== POR QUÉ UNIRTE ===== */
+.about-join {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.about-cards {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+.about-card {
+  background-color: #fff;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 14px;
+  padding: 24px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+}
+
+.about-card:hover {
+  border-color: #FF8C42;
+  box-shadow: 0 4px 16px rgba(255, 140, 66, 0.12);
+  transform: translateY(-2px);
+}
+
+.about-card-icon {
+  font-size: 2rem;
+}
+
+.about-card h3 {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #1B2B44;
+  margin: 0;
+}
+
+.about-card p {
+  font-size: 0.85rem;
+  color: #64748b;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .about-block--right,
+  .about-block--left {
+    grid-template-columns: 1fr;
+  }
+
+  .about-block--left .about-image {
+    order: -1;
+  }
+
+  .about-text--right {
+    text-align: left;
+  }
+
+  .about-cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .about-container {
+    padding: 0 16px;
+    gap: 48px;
+  }
+}
+
+@media (max-width: 480px) {
+  .about-cards {
+    grid-template-columns: 1fr;
+  }
+}

@@ -10,24 +10,28 @@ const Footer = () => {
 
         {/* Columna 1: Logo + "Encuéntranos en:" + redes en fila */}
         <div className="footer-col footer-col-brand">
-          <Link to="/" className="footer-logo">
-            <img
-              src="https://res.cloudinary.com/deakzascp/image/upload/v1773512477/LogoSooki_es8i5j.png"
-              alt="Sooki"
-              className="footer-logo-img"
-            />
-          </Link>
-          <p className="footer-brand-tagline">Encuéntranos en:</p>
-          <div className="footer-socials">
-            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="footer-social-link">
-              <Instagram size={22} />
-            </a>
-            <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="footer-social-link">
-              <Facebook size={22} />
-            </a>
-            <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="footer-social-link">
-              <Twitter size={22} />
-            </a>
+          <div className="footer-brand-row">
+            <Link to="/" className="footer-logo">
+              <img
+                src="https://res.cloudinary.com/deakzascp/image/upload/v1773512477/LogoSooki_es8i5j.png"
+                alt="Sooki"
+                className="footer-logo-img"
+              />
+            </Link>
+            <div className="footer-brand-social">
+              <p className="footer-brand-tagline">Encuéntranos en:</p>
+              <div className="footer-socials">
+                <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="footer-social-link">
+                  <Instagram size={24} />
+                </a>
+                <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="footer-social-link">
+                  <Facebook size={24} />
+                </a>
+                <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="footer-social-link">
+                  <Twitter size={24} />
+                </a>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -36,10 +40,10 @@ const Footer = () => {
           <h4 className="footer-col-title">Explorar</h4>
           <ul className="footer-links-list">
             <li><Link to="/" className="footer-link">Inicio</Link></li>
-            <li><Link to="/productos" className="footer-link">Productos</Link></li>
-            <li><Link to="/categorias" className="footer-link">Categorías</Link></li>
-            <li><Link to="/tiendas" className="footer-link">Tiendas</Link></li>
-            <li><Link to="/perfil" className="footer-link">Perfil</Link></li>
+            <li><Link to="/products" className="footer-link">Productos</Link></li>
+            <li><Link to="/categories" className="footer-link">Categorías</Link></li>
+            <li><Link to="/stores" className="footer-link">Tiendas</Link></li>
+            <li><Link to="/profile" className="footer-link">Perfil</Link></li>
           </ul>
         </div>
 
