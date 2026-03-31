@@ -1,0 +1,135 @@
+/* ===== FORM COMPONENTS ===== */
+.form-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+}
+
+/* Input base */
+.form-input {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  color: #1B2B44;
+  background-color: #f8fafc;
+  outline: none;
+  transition: border-color 0.2s, background-color 0.2s;
+  font-family: inherit;
+}
+
+.form-input:focus {
+  border-color: #FF8C42;
+  background-color: #fff;
+}
+
+.form-input::placeholder {
+  color: #94a3b8;
+}
+
+.form-input.error {
+  border-color: #ef4444;
+}
+
+.form-input:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Password wrapper */
+.form-password-wrap {
+  position: relative;
+}
+
+.form-password-toggle {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #94a3b8;
+  display: flex;
+  align-items: center;
+  transition: color 0.2s;
+  padding: 0;
+}
+
+.form-password-toggle:hover {
+  color: #FF8C42;
+}
+
+/* Error message */
+.form-error {
+  font-size: 0.78rem;
+  color: #ef4444;
+  margin-top: -8px;
+}
+
+/* Button */
+.form-btn {
+  width: 100%;
+  padding: 13px;
+  background-color: #FF8C42;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.15s;
+  font-family: inherit;
+}
+
+.form-btn:hover:not(:disabled) {
+  background-color: #e67a2e;
+  transform: scale(1.01);
+}
+
+.form-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Title */
+.form-title {
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: #1B2B44;
+  margin-bottom: 8px;
+}
+
+/* Subtitle */
+.form-subtitle {
+  font-size: 0.85rem;
+  color: #64748b;
+  margin-bottom: 4px;
+}
+
+/* Code input */
+.form-code-input {
+  width: 100%;
+  padding: 14px 16px;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 10px;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #1B2B44;
+  background-color: #f8fafc;
+  outline: none;
+  text-align: center;
+  letter-spacing: 8px;
+  transition: border-color 0.2s, background-color 0.2s;
+}
+
+.form-code-input:focus {
+  border-color: #FF8C42;
+  background-color: #fff;
+}
+
+.form-code-input.error {
+  border-color: #ef4444;
+}
