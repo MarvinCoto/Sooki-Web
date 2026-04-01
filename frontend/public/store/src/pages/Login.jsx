@@ -19,7 +19,10 @@ const Login = () => {
   const [lockInfo, setLockInfo] = useState(null);
   const [countdown, setCountdown] = useState(null);
 
-  const { register, handleSubmit, setValue, watch, formState: { errors } } = useForm();
+  const { register, handleSubmit, setValue, watch, formState: { errors } } = useForm({
+    defaultValues: { email: "", password: "" },
+    shouldUnregister: false,
+  });
   const emailValue = watch("email");
 
   useEffect(() => {
