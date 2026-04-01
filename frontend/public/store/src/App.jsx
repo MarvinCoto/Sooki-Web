@@ -18,6 +18,7 @@ import PasswordRecovery from './pages/PasswordRecovery';
 import VerifyCode from './pages/VerifyCode';
 import ResetPassword from './pages/ResetPassword';
 import PageNotFound from './pages/PageNotFound';
+import Profile from './pages/Profile';
 
 // Contexts
 import { LoginLimitProvider } from './context/LoginLimitContext';
@@ -65,7 +66,7 @@ function App() {
                   <Route path="/contactUs" element={<ContactUs />} />
 
                   {/* RUTAS PRIVADAS */}
-                  {/* <Route path="/profile" element={<PrivateRoute><Profile /></PrivateRoute>} /> */}
+                  <Route path="/profile" element={<PrivateRoute><Profile /></PrivateRoute>} />
 
                   {/* 404 */}
                   <Route path="*" element={<PageNotFound />} />

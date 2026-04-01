@@ -144,7 +144,7 @@ registerClientsController.registerClient = async (req, res) => {
     try {
         const result = await cloudinary.uploader.upload(req.file.path, {
             folder: "clients",
-            allowed_formats: ["png", "jpg", "jpeg", "webp"],
+            allowed_formats: ["jpg", "png", "jpeg", "webp", "jfif"],
             transformation: [
                 { width: 500, height: 500, crop: "limit" },
                 { quality: "auto" },

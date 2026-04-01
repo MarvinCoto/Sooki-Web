@@ -96,7 +96,7 @@ clientsController.updateClients = async (req, res) => {
       try {
         const result = await cloudinary.uploader.upload(req.file.path, {
           folder: "sooki/clients",
-          allowed_formats: ["jpg", "png", "jpeg"],
+          allowed_formats: ["jpg", "png", "jpeg", "webp", "jfif"],
           transformation: [{ width: 500, height: 500, crop: "limit" }, { quality: "auto" }],
         });
         photo = result.secure_url;

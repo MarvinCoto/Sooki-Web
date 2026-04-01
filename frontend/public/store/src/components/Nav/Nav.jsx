@@ -1,16 +1,26 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Heart, ShoppingCart, User, Search } from 'lucide-react';
+import { useAuth } from '../../context/AuthContext';
 import './Nav.css';
 
 const Nav = () => {
   const [searchValue, setSearchValue] = useState('');
   const navigate = useNavigate();
+  const { isLoggedIn, user } = useAuth();
 
   const handleSearch = (e) => {
     e.preventDefault();
     if (searchValue.trim()) {
-      navigate(`/productos?search=${encodeURIComponent(searchValue.trim())}`);
+      navigate(`/products?search=${encodeURIComponent(searchValue.trim())}`);
+    }
+  };
+
+  const handleProtectedClick = (path) => {
+    if (isLoggedIn) {
+      navigate(path);
+    } else {
+      navigate('/login');
     }
   };
 
@@ -23,6 +33,7 @@ const Nav = () => {
 
       <header className="nav-header">
         <div className="nav-container">
+
           {/* Logo */}
           <Link to="/" className="nav-logo">
             <img
@@ -39,7 +50,7 @@ const Nav = () => {
           <form className="nav-search" onSubmit={handleSearch}>
             <input
               type="text"
-              placeholder="Buscar tiendas"
+              placeholder="Buscar productos"
               value={searchValue}
               onChange={(e) => setSearchValue(e.target.value)}
               className="nav-search-input"
@@ -54,15 +65,38 @@ const Nav = () => {
 
           {/* Íconos de acción */}
           <div className="nav-actions">
-            <Link to="/favoritos" className="nav-action-btn" title="Favoritos">
+            <button
+              className="nav-action-btn"
+              title="Favoritos"
+              onClick={() => handleProtectedClick('/favorites')}
+            >
               <Heart size={22} />
-            </Link>
-            <Link to="/carrito" className="nav-action-btn" title="Carrito">
+            </button>
+
+            <button
+              className="nav-action-btn"
+              title="Carrito"
+              onClick={() => handleProtectedClick('/cart')}
+            >
               <ShoppingCart size={22} />
-            </Link>
-            <Link to="/perfil" className="nav-action-btn" title="Perfil">
-              <User size={22} />
-            </Link>
+            </button>
+
+            <button
+              className="nav-action-btn"
+              title={isLoggedIn ? `${user?.name} ${user?.lastname}` : 'Iniciar sesión'}
+              onClick={() => handleProtectedClick('/profile')}
+            >
+              {isLoggedIn && user?.photo ? (
+                <img
+                  src={user.photo}
+                  alt="Perfil"
+                  className="nav-avatar"
+                  onError={(e) => { e.target.style.display = 'none'; }}
+                />
+              ) : (
+                <User size={22} />
+              )}
+            </button>
           </div>
         </div>
 
