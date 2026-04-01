@@ -19,6 +19,7 @@ import VerifyCode from './pages/VerifyCode';
 import ResetPassword from './pages/ResetPassword';
 import PageNotFound from './pages/PageNotFound';
 import Profile from './pages/Profile';
+import Favorites from './pages/Favorites';
 
 // Contexts
 import { LoginLimitProvider } from './context/LoginLimitContext';
@@ -67,6 +68,7 @@ function App() {
 
                   {/* RUTAS PRIVADAS */}
                   <Route path="/profile" element={<PrivateRoute><Profile /></PrivateRoute>} />
+                  <Route path="/favorites" element={<Favorites />} />
 
                   {/* 404 */}
                   <Route path="*" element={<PageNotFound />} />
