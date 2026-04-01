@@ -10,6 +10,7 @@ import storesRoutes from "./src/routes/stores.js";
 import productsRoutes from "./src/routes/products.js"
 import categoriesRoutes from "./src/routes/categories.js"
 import clientRoutes from "./src/routes/clients.js"
+import variantsRoutes from "./src/routes/variants.js";
 
 //Creo una constante que es igual a la librería que importé
 const app = express();
@@ -61,7 +62,7 @@ app.use("/api/stores", storesRoutes);
 app.use("/api/products", productsRoutes);
 app.use("/api/categories", categoriesRoutes);
 app.use("/api/clients", clientRoutes)
-
+app.use("/api/variants", variantsRoutes);
 app.use("/api/login", loginRoutes);
 app.use("/api/logout", logoutRoutes);
 app.use("/api/registerClients", registerClientsRoutes);
