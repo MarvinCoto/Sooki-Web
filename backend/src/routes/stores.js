@@ -1,25 +1,24 @@
 import express from "express";
-import storesController from "../controllers/storeController.js";
+import storesController from "../controllers/storesController.js";
 import storesValidation from "../middlewares/validations/storesValidation.js";
-import upload from "../middlewares/uploadLogo.js";
+import { uploadStoreImages } from "../middlewares/uploadLogo.js";
+import isAdmin from "../middlewares/isAdmin.js";
 
 const router = express.Router();
 
-// GET todas las tiendas verificadas
+// Publicas
+router.post("/insertStore", uploadStoreImages, storesValidation.validate, storesController.insertStores);
+router.post("/verifyEmail", storesController.verifyEmail);
+router.post("/resendCode", storesController.resendCode);
+router.get("/setup-credentials", storesController.getSetupData);
+router.post("/setup-credentials", uploadStoreImages, storesValidation.validateSetup, storesController.setupCredentials);
+
+// Publicas — tiendas activas (sin datos sensibles)
 router.get("/", storesController.getAllStores);
 
-// Registro — sube imagen, valida, guarda en memoria y envía correo
-router.post(
-    "/insertStore",
-    upload.single("logo"),
-    storesValidation.validate,
-    storesController.insertStores
-);
-
-// Verificar código de 6 dígitos
-router.post("/verifyEmail", storesController.verifyEmail);
-
-// Reenviar código
-router.post("/resendCode", storesController.resendCode);
+// Solo admin
+router.get("/owners", isAdmin, storesController.getAllOwners);
+router.get("/owners/:id", isAdmin, storesController.getOwnerById);
+router.post("/approveStore", isAdmin, storesController.approveStore);
 
 export default router;

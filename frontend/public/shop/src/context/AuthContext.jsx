@@ -1,27 +1,55 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
 
 const AuthContext = createContext(null);
+
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:4000/api";
 
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
     const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [authLoading, setAuthLoading] = useState(true); // verifica sesion al cargar
 
-    // Se llama cuando el usuario verifica su correo exitosamente
-    const onVerified = (storeData) => {
-        setUser(storeData);
+    // Al montar, verifica si hay sesion activa via cookie
+    useEffect(() => {
+        const verifySession = async () => {
+            try {
+                const response = await fetch(`${API_URL}/login/verify`, {
+                    credentials: "include", // envia cookies
+                });
+                const data = await response.json();
+                if (data.success) {
+                    setUser(data.user);
+                    setIsAuthenticated(true);
+                }
+            } catch {
+                // no hay sesion activa
+            } finally {
+                setAuthLoading(false);
+            }
+        };
+        verifySession();
+    }, []);
+
+    const login = (userData) => {
+        setUser(userData);
         setIsAuthenticated(true);
-        // El token JWT se manejará en cookies desde el backend cuando se implemente el login
-        // TODO: cuando el login esté listo, el backend setea la cookie httpOnly con el JWT
     };
 
-    const logout = () => {
+    const logout = async () => {
+        try {
+            await fetch(`${API_URL}/logout`, {
+                method: "POST",
+                credentials: "include",
+            });
+        } catch {
+            // si falla el fetch igual limpiamos el estado local
+        }
         setUser(null);
         setIsAuthenticated(false);
-        // TODO: llamar endpoint de logout para limpiar cookie del backend
     };
 
     return (
-        <AuthContext.Provider value={{ user, isAuthenticated, onVerified, logout }}>
+        <AuthContext.Provider value={{ user, isAuthenticated, authLoading, login, logout }}>
             {children}
         </AuthContext.Provider>
     );
@@ -33,10 +61,9 @@ export const useAuth = () => {
     return context;
 };
 
-// Rutas públicas — accesibles sin autenticación
-// TODO: agrega aquí tus rutas cuando las tengas listas
+// Rutas publicas — accesibles sin autenticacion
 export const PUBLIC_ROUTES = [
-    "/",           // registro
-    "/login",      // login
-    "/verify",     // verificación de correo
+    "/",
+    "/login",
+    "/setup-credentials",
 ];

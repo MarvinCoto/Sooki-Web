@@ -18,8 +18,6 @@ const Step4VerifyEmail = ({ email, onSuccess }) => {
 
     return (
         <div>
-            <h2 className="section-title">Verifica tu Correo</h2>
-
             <p style={{ fontSize: "0.875rem", color: "var(--text-muted)", marginBottom: "6px" }}>
                 Enviamos un código de 6 dígitos a:
             </p>
@@ -71,14 +69,12 @@ const Step4VerifyEmail = ({ email, onSuccess }) => {
                 ))}
             </div>
 
-            {/* Error */}
             {error && (
                 <div className="error-banner" style={{ marginBottom: "16px" }}>
                     {error}
                 </div>
             )}
 
-            {/* Resend message */}
             {resendMsg && (
                 <p style={{
                     fontSize: "0.82rem",
@@ -90,7 +86,6 @@ const Step4VerifyEmail = ({ email, onSuccess }) => {
                 </p>
             )}
 
-            {/* Verify button */}
             <button
                 className="btn-primary"
                 onClick={handleVerify}
@@ -100,10 +95,9 @@ const Step4VerifyEmail = ({ email, onSuccess }) => {
                 {loading ? "Verificando..." : "Verificar Código"}
             </button>
 
-            {/* Resend */}
             <div style={{ textAlign: "center" }}>
                 <span style={{ fontSize: "0.82rem", color: "var(--text-muted)" }}>
-                    ¿No recibiste el código?{" "}
+                    No recibiste el código?{" "}
                 </span>
                 <button
                     onClick={handleResend}

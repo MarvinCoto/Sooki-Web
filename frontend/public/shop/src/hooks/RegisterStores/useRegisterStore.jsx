@@ -1,89 +1,108 @@
 import { useState } from "react";
 import { registerStoreService } from "../../services/registerStoreService";
 
-const TEMPLATES = [
-    { id: "minimalista", label: "Minimalista", desc: "Diseño limpio y simple" },
-    { id: "moderna", label: "Moderna", desc: "Estilo contemporáneo" },
-    { id: "gaming", label: "Gaming / Tech", desc: "Para tecnología" },
-    { id: "moda", label: "Moda", desc: "Elegante y sofisticado" },
-    { id: "comida", label: "Comida", desc: "Para restaurantes" },
-];
-
-const getRandomColor = () => {
-    const letters = "0123456789ABCDEF";
-    let color = "#";
-    for (let i = 0; i < 6; i++) color += letters[Math.floor(Math.random() * 16)];
-    return color;
-};
-
 export const useRegisterStore = () => {
-    const [step, setStep] = useState(1);
+    const [stage, setStage] = useState("form");   // "form" | "verify" | "pending"
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
-    const [success, setSuccess] = useState(false);
     const [registeredEmail, setRegisteredEmail] = useState("");
 
-    const [step1, setStep1] = useState({
-        storeName: "",
-        logo: null,
-        logoPreview: null,
+    const [formData, setFormData] = useState({
+        // Info personal
         ownerName: "",
         phoneNumber: "",
-        hasPhysicalStore: false,
-        location: "",
-    });
-
-    const [step2, setStep2] = useState({
-        design: "minimalista",
-        colors: [getRandomColor(), getRandomColor(), getRandomColor()],
-    });
-
-    const [step3, setStep3] = useState({
         email: "",
-        username: "",
-        password: "",
-        confirmPassword: "",
+        nit: "",
+
+        // Documento
+        documentType: "DUI",
+
+        // DUI
+        duiNumber: "",
+        duiFront: null,
+        duiFrontPreview: null,
+        duiBack: null,
+        duiBackPreview: null,
+
+        // Pasaporte
+        passportNumber: "",
+        passportPhoto: null,
+        passportPhotoPreview: null,
+
+        // Residencia
+        residenceNumber: "",
+        residenceFront: null,
+        residenceFrontPreview: null,
+        residenceBack: null,
+        residenceBackPreview: null,
+
+        // Selfie (todos los tipos)
+        selfieWithDocument: null,
+        selfieWithDocumentPreview: null,
+
+        // Datos bancarios
+        accountHolderName: "",
+        accountNumber: "",
+        bankName: "",
+        accountType: "",
+
+        // Terminos
+        acceptedTerms: false,
+        acceptedPrivacyPolicy: false,
+        acceptedSellerPolicy: false,
+        acceptedProhibitedProducts: false,
     });
 
-    const nextStep = () => setStep((s) => Math.min(s + 1, 4));
-    const prevStep = () => setStep((s) => Math.max(s - 1, 1));
-
-    const updateStep1 = (field, value) =>
-        setStep1((prev) => ({ ...prev, [field]: value }));
-    const updateStep2 = (field, value) =>
-        setStep2((prev) => ({ ...prev, [field]: value }));
-    const updateStep3 = (field, value) =>
-        setStep3((prev) => ({ ...prev, [field]: value }));
-
-    const updateColor = (index, color) => {
-        const newColors = [...step2.colors];
-        newColors[index] = color;
-        setStep2((prev) => ({ ...prev, colors: newColors }));
-    };
+    const updateField = (field, value) =>
+        setFormData((prev) => ({ ...prev, [field]: value }));
 
     const handleSubmit = async () => {
         setLoading(true);
         setError(null);
 
         try {
-            const formData = new FormData();
-            formData.append("storeName", step1.storeName);
-            formData.append("logo", step1.logo);
-            formData.append("ownerName", step1.ownerName);
-            formData.append("phoneNumber", step1.phoneNumber);
-            if (step1.hasPhysicalStore && step1.location) {
-                formData.append("location", step1.location);
+            const data = new FormData();
+
+            // Info personal
+            data.append("ownerName", formData.ownerName);
+            data.append("phoneNumber", formData.phoneNumber);
+            data.append("email", formData.email);
+            if (formData.nit) data.append("nit", formData.nit);
+
+            // Documento
+            data.append("documentType", formData.documentType);
+
+            if (formData.documentType === "DUI") {
+                data.append("duiNumber", formData.duiNumber);
+                data.append("duiFront", formData.duiFront);
+                data.append("duiBack", formData.duiBack);
+            } else if (formData.documentType === "Pasaporte") {
+                data.append("passportNumber", formData.passportNumber);
+                data.append("passportPhoto", formData.passportPhoto);
+            } else if (formData.documentType === "Residencia") {
+                data.append("residenceNumber", formData.residenceNumber);
+                data.append("residenceFront", formData.residenceFront);
+                data.append("residenceBack", formData.residenceBack);
             }
-            formData.append("design", step2.design);
-            formData.append("colors", JSON.stringify(step2.colors));
-            formData.append("email", step3.email);
-            formData.append("username", step3.username);
-            formData.append("password", step3.password);
 
-            await registerStoreService(formData);
+            data.append("selfieWithDocument", formData.selfieWithDocument);
 
-            setRegisteredEmail(step3.email);
-            setStep(4);
+            // Datos bancarios
+            data.append("accountHolderName", formData.accountHolderName);
+            data.append("accountNumber", formData.accountNumber);
+            data.append("bankName", formData.bankName);
+            data.append("accountType", formData.accountType);
+
+            // Terminos
+            data.append("acceptedTerms", formData.acceptedTerms);
+            data.append("acceptedPrivacyPolicy", formData.acceptedPrivacyPolicy);
+            data.append("acceptedSellerPolicy", formData.acceptedSellerPolicy);
+            data.append("acceptedProhibitedProducts", formData.acceptedProhibitedProducts);
+
+            await registerStoreService(data);
+
+            setRegisteredEmail(formData.email);
+            setStage("verify");
         } catch (err) {
             setError(err.message);
         } finally {
@@ -91,27 +110,17 @@ export const useRegisterStore = () => {
         }
     };
 
-    const handleVerifySuccess = () => {
-        setSuccess(true);
-    };
+    const handleVerifySuccess = () => setStage("pending");
 
     return {
-        step,
+        stage,
         loading,
         error,
-        success,
         registeredEmail,
-        step1,
-        step2,
-        step3,
-        TEMPLATES,
-        nextStep,
-        prevStep,
-        updateStep1,
-        updateStep2,
-        updateStep3,
-        updateColor,
+        formData,
+        updateField,
         handleSubmit,
         handleVerifySuccess,
+        setError,
     };
 };

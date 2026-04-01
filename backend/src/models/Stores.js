@@ -1,36 +1,15 @@
 import { Schema, model } from "mongoose";
 
 const storesSchema = new Schema({
-    ownerName: {
-        type: String,
-        required: true,
-        trim: true
+
+    // Referencia al propietario
+    owner: {
+        type: Schema.Types.ObjectId,
+        ref: "StoreOwners",
+        required: true
     },
-    phoneNumber: {
-        type: String,
-        required: true,
-        trim: true,
-        match: [/^\+?[\d\s\-]{7,20}$/, "Invalid phone number format"]
-    },
-    email: {
-        type: String,
-        required: true,
-        trim: true,
-        lowercase: true,
-        match: [/^\S+@\S+\.\S+$/, "Invalid email format"]
-    },
-    username: {
-        type: String,
-        required: true,
-        trim: true,
-        minlength: [3, "Username must be at least 3 characters"],
-        maxlength: [30, "Username cannot exceed 30 characters"]
-    },
-    password: {
-        type: String,
-        required: true,
-        minlength: [8, "Password must be at least 8 characters"]
-    },
+
+    // --- Informacion publica de la tienda ---
     storeName: {
         type: String,
         required: true,
@@ -40,7 +19,6 @@ const storesSchema = new Schema({
     },
     logo: {
         type: String,
-        required: true,
         trim: true
     },
     location: {
@@ -48,16 +26,50 @@ const storesSchema = new Schema({
         trim: true
     },
     design: {
-        type: String
-        // Ver si es necesario poner un diseño default de alguna manera
+        type: String,
+        default: "minimalista"
     },
-    isVerified: {
+    colors: {
+        type: [String],
+        default: []
+    },
+
+    // --- Credenciales de acceso ---
+    username: {
+        type: String,
+        trim: true,
+        minlength: [3, "Username must be at least 3 characters"],
+        maxlength: [30, "Username cannot exceed 30 characters"]
+    },
+    password: {
+        type: String,
+        minlength: [8, "Password must be at least 8 characters"]
+    },
+
+    // --- Email (necesario para login) ---
+    email: {
+        type: String,
+        required: true,
+        trim: true,
+        lowercase: true,
+    },
+
+    // --- Rol ---
+    rol: {
+        type: String,
+        default: "shop",
+        enum: ["shop"]
+    },
+
+    // --- Estado ---
+    isActive: {
         type: Boolean,
-        default: false
-    }
+        default: true
+    },
+
 }, {
     timestamps: true,
     strict: false
 });
 
-export default model("Stores", storesSchema);
+export default model("Stores", storesSchema, "Stores");

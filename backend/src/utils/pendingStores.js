@@ -1,10 +1,10 @@
 // Almacenamiento temporal en memoria
-// key: email  →  value: { storeData, code, expiresAt }
+// key: email → value: { ownerData, code, expiresAt }
 const pendingStores = new Map();
 
-export const savePendingStore = (email, storeData, code) => {
+export const savePendingStore = (email, ownerData, code) => {
     const expiresAt = Date.now() + 30 * 60 * 1000; // 30 minutos
-    pendingStores.set(email, { storeData, code, expiresAt });
+    pendingStores.set(email, { ownerData, code, expiresAt });
 };
 
 export const getPendingStore = (email) => {

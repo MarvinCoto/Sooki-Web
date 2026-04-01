@@ -5,67 +5,75 @@ export const useRegisterStoreForm = () => {
 
     const clearErrors = () => setErrors({});
 
-    const validateStep1 = (data) => {
+    const validateForm = (data) => {
         const newErrors = {};
 
-        if (!data.storeName.trim())
-            newErrors.storeName = "El nombre de la tienda es requerido";
-        else if (data.storeName.trim().length < 2)
-            newErrors.storeName = "Mínimo 2 caracteres";
+        const str = (val) => (val ?? "").toString().trim();
 
-        if (!data.logo)
-            newErrors.logo = "El logo es requerido";
-
-        if (!data.ownerName.trim())
+        // Info personal
+        if (!str(data.ownerName))
             newErrors.ownerName = "El nombre del propietario es requerido";
-        else if (data.ownerName.trim().length < 2)
-            newErrors.ownerName = "Mínimo 2 caracteres";
+        else if (str(data.ownerName).length < 2)
+            newErrors.ownerName = "Minimo 2 caracteres";
 
-        if (!data.phoneNumber.trim())
-            newErrors.phoneNumber = "El teléfono es requerido";
-        else if (!/^\+?[\d\s\-]{7,20}$/.test(data.phoneNumber))
-            newErrors.phoneNumber = "Formato inválido. Ej: +503 0000-0000";
+        if (!str(data.phoneNumber))
+            newErrors.phoneNumber = "El telefono es requerido";
+        else if (!/^\+?[\d\s\-]{7,20}$/.test(str(data.phoneNumber)))
+            newErrors.phoneNumber = "Formato invalido. Ej: +503 0000-0000";
 
-        if (data.hasPhysicalStore && data.location && data.location.trim().length < 3)
-            newErrors.location = "Ingrese una dirección válida";
-
-        setErrors(newErrors);
-        return Object.keys(newErrors).length === 0;
-    };
-
-    const validateStep3 = (data) => {
-        const newErrors = {};
-
-        if (!data.email.trim())
+        if (!str(data.email))
             newErrors.email = "El correo es requerido";
-        else if (!/^\S+@\S+\.\S+$/.test(data.email))
-            newErrors.email = "Correo electrónico inválido";
+        else if (!/^\S+@\S+\.\S+$/.test(str(data.email)))
+            newErrors.email = "Correo electronico invalido";
 
-        if (!data.username.trim())
-            newErrors.username = "El usuario es requerido";
-        else if (data.username.trim().length < 3)
-            newErrors.username = "Mínimo 3 caracteres";
-        else if (data.username.trim().length > 30)
-            newErrors.username = "Máximo 30 caracteres";
+        // Documento
+        if (data.documentType === "DUI") {
+            if (!str(data.duiNumber))
+                newErrors.duiNumber = "El numero de DUI es requerido";
+            if (!data.duiFront)
+                newErrors.duiFront = "La foto frontal del DUI es requerida";
+            if (!data.duiBack)
+                newErrors.duiBack = "La foto trasera del DUI es requerida";
+        } else if (data.documentType === "Pasaporte") {
+            if (!str(data.passportNumber))
+                newErrors.passportNumber = "El numero de pasaporte es requerido";
+            if (!data.passportPhoto)
+                newErrors.passportPhoto = "La foto del pasaporte es requerida";
+        } else if (data.documentType === "Residencia") {
+            if (!str(data.residenceNumber))
+                newErrors.residenceNumber = "El numero de carnet es requerido";
+            if (!data.residenceFront)
+                newErrors.residenceFront = "La foto frontal del carnet es requerida";
+            if (!data.residenceBack)
+                newErrors.residenceBack = "La foto trasera del carnet es requerida";
+        }
 
-        if (!data.password)
-            newErrors.password = "La contraseña es requerida";
-        else if (data.password.length < 8)
-            newErrors.password = "Mínimo 8 caracteres";
+        if (!data.selfieWithDocument)
+            newErrors.selfieWithDocument = "La selfie con documento es requerida";
 
-        if (!data.confirmPassword)
-            newErrors.confirmPassword = "Confirme su contraseña";
-        else if (data.password !== data.confirmPassword)
-            newErrors.confirmPassword = "Las contraseñas no coinciden";
+        // Datos bancarios
+        if (!str(data.accountHolderName))
+            newErrors.accountHolderName = "El nombre del titular es requerido";
+        if (!str(data.accountNumber))
+            newErrors.accountNumber = "El numero de cuenta es requerido";
+        if (!str(data.bankName))
+            newErrors.bankName = "El banco es requerido";
+        if (!data.accountType)
+            newErrors.accountType = "El tipo de cuenta es requerido";
+
+        // Terminos
+        if (!data.acceptedTerms)
+            newErrors.acceptedTerms = "Debe aceptar los terminos y condiciones";
+        if (!data.acceptedPrivacyPolicy)
+            newErrors.acceptedPrivacyPolicy = "Debe aceptar la politica de privacidad";
+        if (!data.acceptedSellerPolicy)
+            newErrors.acceptedSellerPolicy = "Debe aceptar la politica del vendedor";
+        if (!data.acceptedProhibitedProducts)
+            newErrors.acceptedProhibitedProducts = "Debe aceptar la politica de productos prohibidos";
 
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
     };
 
-    return {
-        errors,
-        clearErrors,
-        validateStep1,
-        validateStep3,
-    };
+    return { errors, clearErrors, validateForm };
 };

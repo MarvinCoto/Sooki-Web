@@ -30,10 +30,10 @@
     min-height: 100vh;
     background: var(--navy);
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
     font-family: 'DM Sans', sans-serif;
-    padding: 24px 16px;
+    padding: 40px 16px;
 }
 
 /* CARD */
@@ -150,12 +150,23 @@
 /* SECTION TITLE */
 .section-title {
     font-family: 'Sora', sans-serif;
-    font-size: 1.15rem;
+    font-size: 1.05rem;
     font-weight: 700;
     color: var(--navy);
     border-left: 4px solid var(--orange);
     padding-left: 12px;
-    margin-bottom: 22px;
+    margin-bottom: 18px;
+}
+
+/* FORM SECTIONS */
+.form-section {
+    margin-bottom: 8px;
+}
+
+.form-divider {
+    height: 1px;
+    background: var(--border);
+    margin: 24px 0;
 }
 
 /* FORM */
@@ -244,6 +255,7 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    flex: 1;
 }
 
 .logo-preview {
@@ -253,6 +265,7 @@
     object-fit: cover;
     border: 1.5px solid var(--border);
     margin-left: auto;
+    flex-shrink: 0;
 }
 
 /* CHECKBOX */
@@ -275,91 +288,6 @@
     font-size: 0.85rem;
     color: var(--navy);
     cursor: pointer;
-}
-
-/* TEMPLATES GRID */
-.templates-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
-    margin-bottom: 22px;
-}
-
-.template-card {
-    border: 2px solid var(--border);
-    border-radius: var(--radius);
-    padding: 12px 8px;
-    text-align: center;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    background: var(--bg);
-}
-
-.template-card:hover {
-    border-color: var(--navy-light);
-    transform: translateY(-1px);
-}
-
-.template-card.selected {
-    border-color: var(--orange);
-    background: #fff5ee;
-}
-
-.template-card .t-name {
-    font-family: 'Sora', sans-serif;
-    font-size: 0.82rem;
-    font-weight: 700;
-    color: var(--navy);
-}
-
-.template-card .t-desc {
-    font-size: 0.72rem;
-    color: var(--text-muted);
-    margin-top: 3px;
-}
-
-/* COLORS */
-.colors-label {
-    font-size: 0.82rem;
-    font-weight: 500;
-    color: var(--navy);
-    margin-bottom: 10px;
-}
-
-.colors-row {
-    display: flex;
-    gap: 12px;
-    align-items: center;
-}
-
-.color-swatch-wrapper {
-    position: relative;
-}
-
-.color-swatch {
-    width: 42px;
-    height: 42px;
-    border-radius: 8px;
-    border: 2px solid var(--border);
-    cursor: pointer;
-    transition: transform 0.2s, box-shadow 0.2s;
-}
-
-.color-swatch:hover {
-    transform: scale(1.08);
-    box-shadow: 0 2px 10px rgba(0,0,0,0.15);
-}
-
-.color-picker-input {
-    position: absolute;
-    width: 42px;
-    height: 42px;
-    opacity: 0;
-    top: 0;
-    left: 0;
-    cursor: pointer;
-    border: none;
-    padding: 0;
 }
 
 /* BUTTONS */
@@ -456,4 +384,89 @@
     color: var(--error);
     font-size: 0.85rem;
     margin-bottom: 16px;
+}
+
+/* TEMPLATES GRID */
+.templates-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-bottom: 22px;
+}
+
+.template-card {
+    border: 2px solid var(--border);
+    border-radius: var(--radius);
+    padding: 12px 8px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background: var(--bg);
+}
+
+.template-card:hover {
+    border-color: var(--navy-light);
+    transform: translateY(-1px);
+}
+
+.template-card.selected {
+    border-color: var(--orange);
+    background: #fff5ee;
+}
+
+.template-card .t-name {
+    font-family: 'Sora', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: var(--navy);
+}
+
+.template-card .t-desc {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    margin-top: 3px;
+}
+
+/* COLORS */
+.colors-label {
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: var(--navy);
+    margin-bottom: 10px;
+}
+
+.colors-row {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+.color-swatch-wrapper {
+    position: relative;
+}
+
+.color-swatch {
+    width: 42px;
+    height: 42px;
+    border-radius: 8px;
+    border: 2px solid var(--border);
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.color-swatch:hover {
+    transform: scale(1.08);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+}
+
+.color-picker-input {
+    position: absolute;
+    width: 42px;
+    height: 42px;
+    opacity: 0;
+    top: 0;
+    left: 0;
+    cursor: pointer;
+    border: none;
+    padding: 0;
 }
