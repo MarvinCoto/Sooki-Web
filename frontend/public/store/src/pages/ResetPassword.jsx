@@ -2,8 +2,10 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useRecovery } from "../context/RecoveryContext";
-import useResetPassword from "../loginhooks/useResetPassword";
-import { Title, InputPassword, Button } from "../components/Form/index";
+import useResetPassword from '../hooks/Login/useResetPassword';
+import Title from '../components/Form/Title';
+import InputPassword from '../components/Form/InputPassword';
+import Button from '../components/Form/Button';
 import "./AuthPages.css";
 
 const ResetPassword = () => {

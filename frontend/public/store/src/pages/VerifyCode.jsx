@@ -2,8 +2,10 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useRecovery } from "../context/RecoveryContext";
-import useVerifyCode from "../loginhooks/useVerifyCode";
-import { Title, InputCode, Button } from "../components/Form/index";
+import useVerifyCode from '../hooks/Login/useVerifyCode';
+import Title from '../components/Form/Title';
+import InputCode from '../components/Form/InputCode';
+import Button from '../components/Form/Button';
 import "./AuthPages.css";
 
 const VerifyCode = () => {

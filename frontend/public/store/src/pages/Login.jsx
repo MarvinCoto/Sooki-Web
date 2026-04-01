@@ -4,7 +4,10 @@ import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 import { useAuth } from "../context/AuthContext";
 import { useLoginLimit } from "../context/LoginLimitContext";
-import { Title, InputEmail, InputPassword, Button } from "../components/Form/index";
+import Title from '../components/Form/Title';
+import InputEmail from '../components/Form/InputEmail';
+import InputPassword from '../components/Form/InputPassword';
+import Button from '../components/Form/Button';
 import "./Login.css";
 
 const Login = () => {

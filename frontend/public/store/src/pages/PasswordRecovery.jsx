@@ -2,8 +2,10 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useRecovery } from "../context/RecoveryContext";
-import usePasswordRecovery from "../loginhooks/usePasswordRecovery";
-import { Title, InputEmail, Button } from "../components/Form/index";
+import usePasswordRecovery from '../hooks/Login/usePasswordRecovery';
+import Title from '../components/Form/Title';
+import InputEmail from '../components/Form/InputEmail';
+import Button from '../components/Form/Button';
 import "./AuthPages.css";
 
 const PasswordRecovery = () => {

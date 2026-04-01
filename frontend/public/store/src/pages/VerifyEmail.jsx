@@ -2,8 +2,10 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useAuth } from "../context/AuthContext";
-import useDataClients from "../components/Clients/hooks/useDataClients";
-import { Title, InputCode, Button } from "../components/Form/index";
+import useDataClients from '../hooks/Clients/useDataClients';
+import Title from '../components/Form/Title';
+import InputCode from '../components/Form/InputCode';
+import Button from '../components/Form/Button';
 import "./AuthPages.css";
 
 const VerifyEmail = () => {

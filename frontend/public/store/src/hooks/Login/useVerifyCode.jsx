@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { toast } from "react-hot-toast";
-import { useRecovery } from "../context/RecoveryContext";
-import { API_BASE_URL } from "../utils/api";
+import { useRecovery } from "../../context/RecoveryContext";
+import { API_BASE_URL } from "../../utils/api";
 
 const useVerifyCode = () => {
   const { setIsVerified } = useRecovery();

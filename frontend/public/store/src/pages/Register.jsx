@@ -1,8 +1,15 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import useDataClients from "../components/Clients/hooks/useDataClients";
-import { Title, InputText, InputEmail, InputPassword, InputBirthdate, InputImage, Button, Subtitle } from "../components/Form/index";
+import useDataClients from '../hooks/Clients/useDataClients';
+import Title from '../components/Form/Title';
+import Subtitle from '../components/Form/SubTitle';
+import Button from '../components/Form/Button';
+import InputText from '../components/Form/InputText';
+import InputEmail from '../components/Form/InputEmail';
+import InputPassword from '../components/Form/InputPassword';
+import InputBirthdate from '../components/Form/InputBirthdate';
+import InputImage from '../components/Form/InputImage';
 import "./Register.css";
 
 const Register = () => {
