@@ -72,4 +72,4 @@ const storesSchema = new Schema({
     strict: false
 });
 
-export default model("Stores", storesSchema, "Stores");
+export default model("Stores", storesSchema, "stores");
