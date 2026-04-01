@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ChevronLeft, ChevronRight, ArrowRight } from 'lucide-react';
+import { toast } from 'react-hot-toast';
 import CardStore from '../components/Stores/CardStoreHome';
-import CardProduct from '../components/Products/CardProduct';
-import useDataStores from '../hooks/Stores/useDataStores';
-import useDataProducts from '../hooks/Products/useDataProducts';
+import CardProduct from '../Components/Products/CardProduct';
+import useDataStores from '../Hooks/Stores/useDataStores';
+import useDataProducts from '../Hooks/Products/useDataProducts';
+import useFavorites from '../hooks/Favorites/useFavorites';
+import { useAuth } from '../context/AuthContext';
 import './Home.css';
 
 /* ─── Slides del banner ─────────────────────────────────────────
@@ -40,9 +43,11 @@ const SLIDE_INTERVAL = 4000;
 const Home = () => {
   const navigate = useNavigate();
   const [slideIndex, setSlideIndex] = useState(0);
+  const { isLoggedIn, user } = useAuth();
 
   const { stores, loading: storesLoading, error: storesError } = useDataStores();
   const { products, loading: productsLoading, error: productsError } = useDataProducts();
+  const { isFavorite, toggleFavorite } = useFavorites(isLoggedIn ? user?.id : null);
 
   /* ─── Auto-play slider ─── */
   useEffect(() => {
@@ -57,7 +62,21 @@ const Home = () => {
 
   const currentSlide = SLIDES[slideIndex];
 
-  /* ─── Productos por sección ─── */
+  const handleToggleFavorite = async (productId) => {
+    if (!isLoggedIn) {
+      toast.error('Debes iniciar sesión para agregar favoritos');
+      navigate('/login');
+      return;
+    }
+    try {
+      const wasFav = isFavorite(productId);
+      await toggleFavorite(productId);
+      toast.success(wasFav ? 'Eliminado de favoritos' : 'Agregado a favoritos');
+    } catch {
+      toast.error('Error al actualizar favoritos');
+    }
+  };
+
   const featuredProducts = products.slice(0, 8);
   const sookiProducts = products.filter(p =>
     p.idStore?.storeName?.toLowerCase().includes('sooki')
@@ -82,7 +101,7 @@ const Home = () => {
         <div className="home-hero-content">
           <h1 className="home-hero-title">{currentSlide.title}</h1>
           <p className="home-hero-subtitle">{currentSlide.subtitle}</p>
-          <button className="home-hero-cta" onClick={() => navigate('/tiendas/registro')}>
+          <button className="home-hero-cta" onClick={() => navigate('/stores/register')}>
             Registra tu tienda aquí <ArrowRight size={16} />
           </button>
         </div>
@@ -125,7 +144,7 @@ const Home = () => {
       <section className="home-section">
         <div className="home-section-header">
           <h2 className="home-section-title home-section-title--left">Productos destacados</h2>
-          <button className="home-ver-todo" onClick={() => navigate('/productos')}>
+          <button className="home-ver-todo" onClick={() => navigate('/products')}>
             Ver todo <ArrowRight size={15} />
           </button>
         </div>
@@ -139,8 +158,9 @@ const Home = () => {
                   <CardProduct
                     key={product._id}
                     product={product}
+                    isFavorite={isFavorite(product._id)}
                     onAddToCart={(p, qty) => console.log('Carrito:', p.name, qty)}
-                    onToggleFavorite={(id) => console.log('Favorito:', id)}
+                    onToggleFavorite={handleToggleFavorite}
                   />
                 ))
             }
@@ -153,7 +173,7 @@ const Home = () => {
         <section className="home-section">
           <div className="home-section-header">
             <h2 className="home-section-title home-section-title--left">Productos de Sooki</h2>
-            <button className="home-ver-todo" onClick={() => navigate('/productos?tienda=sooki')}>
+            <button className="home-ver-todo" onClick={() => navigate('/products?tienda=sooki')}>
               Ver todo <ArrowRight size={15} />
             </button>
           </div>
@@ -164,8 +184,9 @@ const Home = () => {
                 <CardProduct
                   key={product._id}
                   product={product}
+                  isFavorite={isFavorite(product._id)}
                   onAddToCart={(p, qty) => console.log('Carrito:', p.name, qty)}
-                  onToggleFavorite={(id) => console.log('Favorito:', id)}
+                  onToggleFavorite={handleToggleFavorite}
                 />
               ))}
             </div>

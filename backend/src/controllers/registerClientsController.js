@@ -141,23 +141,24 @@ registerClientsController.registerClient = async (req, res) => {
         }
 
         if (req.file) {
-            try {
-                const result = await cloudinary.uploader.upload(req.file.path, {
-                    folder: "clients",
-                    allowed_formats: ["png", "jpg", "jpeg"],
-                    transformation: [
-                        { width: 500, height: 500, crop: "limit" },
-                        { quality: "auto" },
-                    ],
-                });
-                imageURL = result.secure_url;
-            } catch (uploadError) {
-                return res.status(500).json({
-                    success: false,
-                    message: "Error subiendo la imagen",
-                });
-            }
-        }
+    try {
+        const result = await cloudinary.uploader.upload(req.file.path, {
+            folder: "clients",
+            allowed_formats: ["jpg", "png", "jpeg", "webp", "jfif"],
+            transformation: [
+                { width: 500, height: 500, crop: "limit" },
+                { quality: "auto" },
+            ],
+        });
+        imageURL = result.secure_url;
+    } catch (uploadError) {
+        console.log("❌ ERROR CLOUDINARY COMPLETO:", uploadError); // ← agrega esto
+        return res.status(500).json({
+            success: false,
+            message: "Error subiendo la imagen",
+        });
+    }
+}
 
         const passwordHash = await bcryptjs.hash(password, 12);
 

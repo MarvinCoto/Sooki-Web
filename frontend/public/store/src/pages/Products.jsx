@@ -1,12 +1,19 @@
 import React, { useState, useMemo } from 'react';
-import CardProduct from '../components/Products/CardProduct';
-import useDataProducts from '../hooks/Products/useDataProducts';
-import useDataCategories from '../hooks/Categories/useDataCategories';
+import { toast } from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
+import useFavorites from '../hooks/Favorites/useFavorites';
+import CardProduct from '../Components/Products/CardProduct';
+import useDataProducts from '../Hooks/Products/useDataProducts';
+import useDataCategories from '../Hooks/Categories/useDataCategories';
 import './Products.css';
 
 const PRODUCTS_PER_PAGE = 9;
 
 const Products = () => {
+  const navigate = useNavigate();
+  const { isLoggedIn, user } = useAuth();
+  const { isFavorite, toggleFavorite } = useFavorites(isLoggedIn ? user?.id : null);
   const { products, loading: productsLoading, error: productsError } = useDataProducts();
   const { categories, loading: categoriesLoading } = useDataCategories();
 
@@ -56,6 +63,21 @@ const Products = () => {
   const handlePriceChange = (e) => {
     setCurrentPage(1);
     setPriceRange([0, Number(e.target.value)]);
+  };
+
+  const handleToggleFavorite = async (productId) => {
+    if (!isLoggedIn) {
+      toast.error('Debes iniciar sesion para agregar favoritos');
+      navigate('/login');
+      return;
+    }
+    try {
+      const wasFav = isFavorite(productId);
+      await toggleFavorite(productId);
+      toast.success(wasFav ? 'Eliminado de favoritos' : 'Agregado a favoritos');
+    } catch {
+      toast.error('Error al actualizar favoritos');
+    }
   };
 
   const getPageNumbers = () => {
@@ -149,8 +171,9 @@ const Products = () => {
                   <CardProduct
                     key={product._id}
                     product={product}
+                    isFavorite={isFavorite(product._id)}
                     onAddToCart={(p, qty) => console.log('Carrito:', p.name, qty)}
-                    onToggleFavorite={(id) => console.log('Favorito:', id)}
+                    onToggleFavorite={handleToggleFavorite}
                   />
                 ))}
               </div>

@@ -1,0 +1,124 @@
+/* ===== REGISTER PAGE ===== */
+.register-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f8fafc;
+  padding: 24px;
+}
+
+.register-card {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  max-width: 960px;
+  width: 100%;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12);
+}
+
+/* ===== PANEL IZQUIERDO ===== */
+.register-left {
+  position: relative;
+  overflow: hidden;
+}
+
+.register-bg-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.register-left-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(27,43,68,0.85) 0%, rgba(27,43,68,0.3) 60%, transparent 100%);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 36px 32px;
+  color: #fff;
+}
+
+.register-left-overlay h2 {
+  font-size: 1.6rem;
+  font-weight: 800;
+  margin: 0 0 10px;
+  color: #fff;
+}
+
+.register-left-overlay p {
+  font-size: 0.88rem;
+  color: rgba(255, 255, 255, 0.8);
+  margin: 0;
+}
+
+/* ===== PANEL DERECHO ===== */
+.register-right {
+  background-color: #fff;
+  padding: 40px 36px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  overflow-y: auto;
+  max-height: 100vh;
+}
+
+.register-logo {
+  margin-bottom: 4px;
+}
+
+.register-logo-img {
+  height: 44px;
+  width: auto;
+  object-fit: contain;
+}
+
+.register-tagline {
+  font-size: 0.88rem;
+  color: #64748b;
+  margin: 0;
+}
+
+.register-login-text {
+  text-align: center;
+  font-size: 0.88rem;
+  color: #64748b;
+}
+
+.register-login-link {
+  color: #FF8C42;
+  font-weight: 700;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.register-login-link:hover {
+  color: #e67a2e;
+}
+
+.register-terms {
+  font-size: 0.75rem;
+  color: #94a3b8;
+  text-align: center;
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .register-card {
+    grid-template-columns: 1fr;
+  }
+
+  .register-left {
+    display: none;
+  }
+
+  .register-right {
+    padding: 36px 24px;
+    max-height: none;
+  }
+}
