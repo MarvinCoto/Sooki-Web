@@ -7,11 +7,27 @@ const productsController = {};
 //SELECT
 productsController.getAllProducts = async(req, res) => {
     try {
-        const products = await productsModel.find().populate('idCategory').populate('idStore')
+        const products = await productModel.find().populate('idCategory').populate('idStore')
         res.status(200).json(products)
     } catch (error) {
         console.log("error" + error)
         res.status(500).json({message: "Internal server error"})
+    }
+}
+
+// GET — productos públicos de una tienda específica
+productsController.getProductsByStore = async(req, res) => {
+    try {
+        const { storeId } = req.params;
+        
+        const products = await productModel
+            .find({ idStore: storeId, status: true })
+            .populate('idCategory')
+            .populate('idStore');
+            
+        res.status(200).json(products);
+    } catch (error) {
+        res.status(500).json({ message: "Internal server error" });
     }
 }
 

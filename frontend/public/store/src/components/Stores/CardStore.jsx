@@ -10,7 +10,7 @@ const CardStore = ({ store }) => {
   return (
     <div
       className="card-store"
-      onClick={() => navigate(`/tiendas/${_id}`)}
+      onClick={() => navigate(`/stores/${_id}`)}
     >
       {/* Banner */}
       <div className="card-store-banner">
@@ -55,7 +55,7 @@ const CardStore = ({ store }) => {
           className="card-store-btn"
           onClick={(e) => {
             e.stopPropagation();
-            navigate(`/tiendas/${_id}`);
+            navigate(`/stores/${_id}`);
           }}
         >
           Explorar <span>⊞</span>

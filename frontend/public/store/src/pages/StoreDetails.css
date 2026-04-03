@@ -1,0 +1,41 @@
+.store-detail-loading,
+.store-detail-error {
+  min-height: 60vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  color: #64748b;
+  font-size: 0.95rem;
+}
+
+.store-detail-spinner {
+  animation: sd-spin 0.9s linear infinite;
+  color: #FF8C42;
+}
+
+@keyframes sd-spin {
+  to { transform: rotate(360deg); }
+}
+
+.store-detail-error h2 {
+  font-size: 1.2rem;
+  color: #1B2B44;
+  margin: 0;
+}
+
+.store-detail-back-btn {
+  padding: 10px 24px;
+  background-color: #FF8C42;
+  color: #fff;
+  border-radius: 10px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: background-color 0.2s;
+}
+
+.store-detail-back-btn:hover {
+  background-color: #e67a2e;
+}

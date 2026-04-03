@@ -21,4 +21,7 @@ router.get("/owners", isAdmin, storesController.getAllOwners);
 router.get("/owners/:id", isAdmin, storesController.getOwnerById);
 router.post("/approveStore", isAdmin, storesController.approveStore);
 
+//Obtener una tienda por id
+router.get("/:id", storesController.getStoreById);
+
 export default router;

@@ -34,7 +34,14 @@ const storesSchema = new Schema({
         default: []
     },
 
-    // --- Credenciales de acceso ---
+    // --- Sobre nosotros ---
+    about: {
+        description: { type: String, default: "" },
+        mission:     { type: String, default: "" },
+        vision:      { type: String, default: "" },
+        images:      { type: [String], default: [] },
+    },
+
     username: {
         type: String,
         trim: true,
@@ -72,4 +79,4 @@ const storesSchema = new Schema({
     strict: false
 });
 
-export default model("Stores", storesSchema, "stores");
+export default model("Stores", storesSchema, "Stores");

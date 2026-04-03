@@ -1,0 +1,388 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Share+Tech+Mono&display=swap');
+
+.tg-root {
+  --c1: #00ff88;
+  --c2: #0a0a0f;
+  --c3: #111118;
+  font-family: 'Share Tech Mono', monospace;
+  background: var(--c2);
+  color: #e0e0e0;
+}
+
+/* NAV */
+.tg-nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  background: rgba(10,10,15,0.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+.tg-nav-inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 32px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+.tg-nav-back {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  color: #555;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: color 0.2s;
+  flex-shrink: 0;
+}
+.tg-nav-back:hover { color: var(--c1); }
+.tg-nav-logo { flex: 1; display: flex; justify-content: center; }
+.tg-nav-logo-img { height: 32px; object-fit: contain; }
+.tg-nav-name {
+  font-family: 'Orbitron', monospace;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--c1);
+  text-shadow: 0 0 12px var(--c1);
+  letter-spacing: 0.1em;
+}
+.tg-nav-links {
+  display: flex; gap: 24px;
+}
+.tg-nav-links a {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  color: #666;
+  text-decoration: none;
+  transition: color 0.2s, text-shadow 0.2s;
+}
+.tg-nav-links a:hover { color: var(--c1); text-shadow: 0 0 8px var(--c1); }
+.tg-nav-actions { display: flex; gap: 4px; }
+.tg-nav-actions button {
+  width: 36px; height: 36px;
+  border-radius: 4px;
+  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(255,255,255,0.03);
+  cursor: pointer;
+  color: #666;
+  display: flex; align-items: center; justify-content: center;
+  transition: border-color 0.2s, color 0.2s;
+}
+.tg-nav-actions button:hover { border-color: var(--c1); color: var(--c1); }
+.tg-nav-avatar { width: 24px; height: 24px; border-radius: 3px; object-fit: cover; }
+.tg-nav-burger { display: none !important; }
+.tg-nav-mobile {
+  display: none;
+  flex-direction: column;
+  padding: 12px 32px 16px;
+  gap: 10px;
+  border-top: 1px solid rgba(255,255,255,0.06);
+}
+.tg-nav-mobile a { font-size: 0.78rem; color: #666; text-decoration: none; letter-spacing: 0.08em; }
+
+/* HERO */
+.tg-hero {
+  min-height: 100vh;
+  position: relative;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  background: var(--c2);
+}
+.tg-hero-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+.tg-hero-content {
+  position: relative;
+  z-index: 1;
+  padding: 0 60px;
+  animation: tg-slide-in 0.8s ease both;
+}
+@keyframes tg-slide-in {
+  from { opacity: 0; transform: translateX(-30px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+.tg-hero-badge {
+  font-size: 0.72rem;
+  color: var(--c1);
+  letter-spacing: 0.2em;
+  margin-bottom: 20px;
+}
+.tg-hero-title {
+  font-family: 'Orbitron', monospace;
+  font-size: clamp(2.5rem, 7vw, 6rem);
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  margin: 0 0 20px;
+}
+.tg-hero-accent {
+  color: var(--c1);
+  text-shadow: 0 0 40px var(--c1), 0 0 80px color-mix(in srgb, var(--c1) 40%, transparent);
+}
+.tg-hero-loc { font-size: 0.85rem; color: #555; margin: 0 0 36px; }
+.tg-hero-btns { display: flex; gap: 16px; flex-wrap: wrap; }
+.tg-btn {
+  padding: 12px 28px;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.82rem;
+  letter-spacing: 0.08em;
+  text-decoration: none;
+  border-radius: 3px;
+  transition: all 0.2s;
+  display: flex; align-items: center; gap: 8px;
+}
+.tg-btn--primary {
+  background: var(--c1);
+  color: #000;
+  font-weight: 700;
+}
+.tg-btn--primary:hover { box-shadow: 0 0 20px var(--c1); transform: translateY(-2px); }
+.tg-btn--outline {
+  border: 1px solid var(--c1);
+  color: var(--c1);
+}
+.tg-btn--outline:hover { background: rgba(0,255,136,0.1); }
+.tg-hero-scan {
+  position: absolute;
+  top: 0; right: 0;
+  width: 40%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--c1) 4%, transparent));
+  pointer-events: none;
+}
+
+/* SECTION HEADER */
+.tg-tag {
+  display: block;
+  font-size: 0.7rem;
+  color: var(--c1);
+  letter-spacing: 0.15em;
+  margin-bottom: 8px;
+}
+.tg-section-header h2 {
+  font-family: 'Orbitron', monospace;
+  font-size: clamp(1.5rem, 3vw, 2.5rem);
+  font-weight: 700;
+  color: #e0e0e0;
+  margin: 0 0 48px;
+  letter-spacing: -0.01em;
+}
+.tg-count { color: var(--c1); font-size: 0.7em; }
+
+/* ABOUT */
+.tg-about {
+  padding: 100px 60px;
+  background: var(--c3);
+}
+.tg-about-inner { max-width: 1280px; margin: 0 auto; }
+.tg-about-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+  margin-bottom: 48px;
+}
+.tg-panel {
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-top: 1px solid var(--c1);
+  border-radius: 4px;
+  overflow: hidden;
+}
+.tg-panel-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 16px;
+  background: rgba(255,255,255,0.03);
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  font-size: 0.72rem;
+  color: #555;
+  letter-spacing: 0.06em;
+}
+.tg-panel-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--c1);
+  opacity: 0.5;
+}
+.tg-panel p {
+  padding: 20px;
+  font-size: 0.88rem;
+  line-height: 1.7;
+  color: #888;
+  margin: 0;
+}
+.tg-about-images {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+.tg-about-img {
+  position: relative;
+  aspect-ratio: 4/3;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.07);
+}
+.tg-about-img img { width: 100%; height: 100%; object-fit: cover; filter: brightness(0.85) saturate(0.8); transition: filter 0.3s; }
+.tg-about-img:hover img { filter: brightness(1) saturate(1); }
+.tg-about-img-scan {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 50%, rgba(0,255,136,0.05) 100%);
+  pointer-events: none;
+}
+
+/* PRODUCTS */
+.tg-products { padding: 100px 60px; background: var(--c2); }
+.tg-products-inner { max-width: 1280px; margin: 0 auto; }
+.tg-empty { color: var(--c1); font-size: 0.9rem; padding: 40px; }
+.tg-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+/* CARD */
+.tg-card {
+  position: relative;
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 4px;
+  overflow: hidden;
+  transition: border-color 0.25s, box-shadow 0.25s;
+  cursor: pointer;
+}
+.tg-card:hover {
+  border-color: var(--c1);
+  box-shadow: 0 0 20px color-mix(in srgb, var(--c1) 15%, transparent);
+}
+.tg-card-corner {
+  position: absolute;
+  width: 10px; height: 10px;
+  z-index: 2;
+}
+.tg-card-corner--tl {
+  top: 0; left: 0;
+  border-top: 2px solid var(--c1);
+  border-left: 2px solid var(--c1);
+}
+.tg-card-corner--br {
+  bottom: 0; right: 0;
+  border-bottom: 2px solid var(--c1);
+  border-right: 2px solid var(--c1);
+}
+.tg-card-img-wrap {
+  position: relative;
+  aspect-ratio: 1;
+  overflow: hidden;
+  background: rgba(255,255,255,0.03);
+}
+.tg-card-img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s; filter: brightness(0.9); }
+.tg-card:hover .tg-card-img { transform: scale(1.05); filter: brightness(1); }
+.tg-card-img-empty {
+  width: 100%; height: 100%;
+  display: flex; align-items: center; justify-content: center;
+  color: #333;
+}
+.tg-card-badge {
+  position: absolute;
+  top: 8px; left: 8px;
+  background: var(--c1);
+  color: #000;
+  font-size: 0.66rem;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 2px;
+}
+.tg-card-fav {
+  position: absolute;
+  top: 8px; right: 8px;
+  width: 28px; height: 28px;
+  border-radius: 3px;
+  border: 1px solid rgba(255,255,255,0.1);
+  background: rgba(0,0,0,0.6);
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: border-color 0.2s;
+}
+.tg-card-fav:hover { border-color: var(--c1); }
+.tg-card-body { padding: 14px; }
+.tg-card-name {
+  font-size: 0.82rem;
+  color: #ccc;
+  margin: 0 0 10px;
+  line-height: 1.4;
+}
+.tg-card-bottom { display: flex; align-items: center; justify-content: space-between; }
+.tg-card-prices { display: flex; align-items: baseline; gap: 6px; }
+.tg-card-price {
+  font-family: 'Orbitron', monospace;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--c1);
+}
+.tg-card-orig { font-size: 0.75rem; color: #444; text-decoration: line-through; }
+.tg-card-btn {
+  width: 30px; height: 30px;
+  border-radius: 3px;
+  border: 1px solid var(--c1);
+  background: transparent;
+  cursor: pointer;
+  color: var(--c1);
+  display: flex; align-items: center; justify-content: center;
+  transition: background 0.2s;
+}
+.tg-card-btn:hover { background: var(--c1); color: #000; }
+
+/* CONTACT */
+.tg-contact {
+  padding: 80px 60px;
+  background: var(--c3);
+  border-top: 1px solid rgba(255,255,255,0.05);
+}
+.tg-contact-inner { max-width: 600px; }
+.tg-contact h2 {
+  font-family: 'Orbitron', monospace;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #e0e0e0;
+  margin: 0 0 32px;
+}
+.tg-contact-items { display: flex; flex-direction: column; gap: 12px; }
+.tg-contact-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 20px;
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 4px;
+  color: #888;
+  text-decoration: none;
+  font-size: 0.88rem;
+  transition: border-color 0.2s, color 0.2s;
+}
+.tg-contact-item:hover { border-color: var(--c1); color: var(--c1); }
+.tg-contact-icon { font-size: 1rem; }
+
+/* RESPONSIVE */
+@media (max-width: 1024px) { .tg-grid { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 768px) {
+  .tg-nav-links { display: none; }
+  .tg-nav-burger { display: flex !important; }
+  .tg-nav-mobile { display: flex; }
+  .tg-hero-content { padding: 0 24px; }
+  .tg-about, .tg-products, .tg-contact { padding: 60px 24px; }
+  .tg-grid { grid-template-columns: repeat(2, 1fr); }
+  .tg-about-images { grid-template-columns: 1fr; }
+}

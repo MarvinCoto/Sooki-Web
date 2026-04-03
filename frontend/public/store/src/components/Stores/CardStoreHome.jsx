@@ -8,7 +8,7 @@ const CardStoreHome = ({ store }) => {
   const { storeName = 'Tienda', logo, _id } = store || {};
 
   const handleClick = () => {
-    if (_id) navigate(`/tiendas/${_id}`);
+    if (_id) navigate(`/stores/${_id}`);
   };
 
   return (

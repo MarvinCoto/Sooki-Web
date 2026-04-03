@@ -39,6 +39,23 @@ storeController.getAllStores = async (req, res) => {
     }
 };
 
+// GET — una tienda por ID (pública)
+storeController.getStoreById = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const store = await storeModel
+            .findById(id)
+            .select("-password -credentialsToken -credentialsTokenExpires -username");
+
+        if (!store) return res.status(404).json({ message: "Store not found" });
+        if (!store.isActive) return res.status(403).json({ message: "This store is not available" });
+
+        res.status(200).json(store);
+    } catch (error) {
+        res.status(500).json({ message: "Internal server error" });
+    }
+};
+
 // GET — todas las solicitudes de propietarios (solo admin) con URLs firmadas
 storeController.getAllOwners = async (req, res) => {
     try {
