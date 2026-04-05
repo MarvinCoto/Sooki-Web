@@ -1,0 +1,232 @@
+/* Estilos centralizados para la pantalla de login */
+/* Centralized styles for the login screen */
+
+/* ─── Reset base / Base reset ───────────────────────────────────────────────── */
+html, body, #root {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+/* ─── Página principal / Main page ─────────────────────────────────────────── */
+.login-page {
+  width: 100vw;
+  height: 100vh;
+  background: linear-gradient(135deg, #1a2030 0%, #151c2c 60%, #111827 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Georgia', serif;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Textura de ruido de fondo / Background noise texture */
+.login-noise {
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+/* Contenedor principal — distribuido con más espacio / Main wrapper — more spacious */
+.login-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 120px;          /* más separación entre panel y formulario / more separation */
+  z-index: 1;
+  width: 100%;
+  max-width: 1100px;
+  padding: 60px 80px;
+  box-sizing: border-box;
+}
+
+/* ─── Panel de marca / Brand panel ──────────────────────────────────────────── */
+.brand-left {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 24px;
+  flex: 1;
+  max-width: 380px;
+}
+
+/* ── Logo ──
+   Para cambiar el tamaño del logo solo edita width aquí
+   To change the logo size just edit width here           */
+.brand-logo {
+  width: 160px;        /* ← cambia este valor para agrandar o achicar el logo */
+  height: auto;        /*   change this value to resize the logo               */
+  object-fit: contain;
+  position: relative;
+  top: -150px;          /* ← sube el logo, aumenta el número para subir más / move up more */
+  left: -80px;         /* ← mueve a la izquierda / move left */
+}
+
+/* Texto de bienvenida / Welcome text */
+.brand-welcome {
+  color: #e8ddd0;
+  font-size: 42px;     /* más grande / larger */
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  margin: 0;
+  line-height: 1.1;
+}
+
+/* Línea separadora decorativa / Decorative separator line */
+.brand-divider {
+  width: 100px;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(205, 140, 70, 0.7) 0%, transparent 100%);
+}
+
+/* Nombre de la marca en texto / Brand name as text */
+.brand-name {
+  color: rgba(205, 140, 70, 0.85);
+  font-size: 26px;
+  font-style: italic;
+  letter-spacing: 0.12em;
+  margin: 0;
+}
+
+/* Nombre de la marca como imagen / Brand name as image
+   Para cambiar el tamaño edita width aquí
+   To resize edit width here                            */
+.brand-name-img {
+  width: 120px;        /* ← cambia este valor para ajustar el tamaño */
+  height: auto;        /*   change this value to resize               */
+  object-fit: contain;
+}
+
+/* ─── Tarjeta del formulario / Form card ─────────────────────────────────────── */
+.login-card {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 22px;
+  padding: 52px 48px 56px;
+  width: 400px;        /* más ancha / wider */
+  flex-shrink: 0;
+  box-shadow: 0 40px 100px rgba(0, 0, 0, 0.55),
+              0 0 0 1px rgba(255, 255, 255, 0.03) inset;
+}
+
+/* Título de la tarjeta / Card title */
+.login-card-title {
+  color: #e8ddd0;
+  font-size: 26px;     /* más grande / larger */
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  margin: 0 0 36px;
+  text-align: center;
+}
+
+/* Agrupación de campos / Field group */
+.login-field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  margin-bottom: 32px;
+}
+
+/* Etiqueta del campo / Field label */
+.login-label {
+  display: block;
+  color: rgba(220, 210, 200, 0.75);
+  font-size: 14px;     /* un poco más grande / slightly larger */
+  letter-spacing: 0.04em;
+  margin-bottom: 10px;
+}
+
+/* Input base / Base input */
+.login-input {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 14px 16px;  /* más padding / more padding */
+  color: #e8ddd0;
+  font-size: 15px;     /* más grande / larger */
+  outline: none;
+  transition: border-color 0.2s, background 0.2s;
+  box-sizing: border-box;
+  font-family: 'Georgia', serif;
+}
+
+/* Input con foco / Focused input */
+.login-input:focus {
+  border-color: rgba(205, 140, 70, 0.5);
+  background: rgba(255, 255, 255, 0.09);
+}
+
+/* Autocompletado del navegador / Browser autocomplete */
+.login-input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0px 1000px rgba(30, 35, 50, 0.95) inset;
+  -webkit-text-fill-color: #e8ddd0;
+}
+
+/* Botón de submit / Submit button */
+.login-button {
+  width: 100%;
+  padding: 16px;       /* más alto / taller */
+  background: linear-gradient(135deg, #c8903a 0%, #b07030 100%);
+  border: none;
+  border-radius: 12px;
+  color: #fff;
+  font-size: 16px;     /* más grande / larger */
+  letter-spacing: 0.08em;
+  font-family: 'Georgia', serif;
+  cursor: pointer;
+  transition: opacity 0.2s, transform 0.15s;
+}
+
+/* Hover del botón / Button hover */
+.login-button:hover {
+  opacity: 0.88;
+  transform: translateY(-2px);
+}
+
+/* Botón deshabilitado / Disabled button */
+.login-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Mensaje de error / Error message */
+.login-error {
+  color: #e07070;
+  font-size: 13px;
+  margin-bottom: 14px;
+  text-align: center;
+}
+
+/* ─── Responsive para pantallas pequeñas / Responsive for small screens ─────── */
+@media (max-width: 768px) {
+  .login-wrapper {
+    flex-direction: column;
+    gap: 40px;
+    padding: 40px 24px;
+    align-items: center;
+  }
+
+  .brand-left {
+    align-items: center;
+    text-align: center;
+    max-width: 100%;
+  }
+
+  .brand-divider {
+    align-self: center;
+  }
+
+  .login-card {
+    width: 100%;
+    max-width: 400px;
+    padding: 36px 28px 40px;
+  }
+}

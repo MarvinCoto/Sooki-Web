@@ -1,0 +1,366 @@
+/* Estilos de la pantalla de Finanzas */
+/* Finance screen styles              */
+
+/* ─── Página / Page ──────────────────────────────────────────────────────────── */
+.fin-page {
+  width: 100vw;
+  height: 100vh;
+  background: linear-gradient(135deg, #1a2030 0%, #151c2c 60%, #111827 100%);
+  display: flex;
+  flex-direction: column;
+  font-family: 'Georgia', serif;
+  overflow: hidden;
+  position: relative;
+}
+
+.fin-noise {
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+/* ─── Header ─────────────────────────────────────────────────────────────────── */
+.fin-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 22px 48px;
+  z-index: 1;
+  flex-shrink: 0;
+}
+
+.fin-logo { width: 80px; height: auto; object-fit: contain; }
+
+.fin-title {
+  color: rgba(205, 140, 70, 0.9);
+  font-size: 26px;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  margin: 0;
+}
+
+.fin-back-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(205,140,70,0.3);
+  border-radius: 10px;
+  padding: 10px 18px;
+  color: rgba(205,140,70,0.85);
+  font-family: 'Georgia', serif;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.15s;
+}
+.fin-back-btn:hover { background: rgba(205,140,70,0.1); transform: translateY(-1px); }
+
+/* ─── Main ───────────────────────────────────────────────────────────────────── */
+.fin-main {
+  flex: 1;
+  z-index: 1;
+  padding: 0 48px 40px;
+  display: flex;
+  align-items: stretch;
+}
+
+/* ─── Tarjeta base / Base card ───────────────────────────────────────────────── */
+.fin-card {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 16px;
+  padding: 28px 32px;
+}
+
+.fin-card-tag {
+  color: rgba(220,210,200,0.45);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  margin: 0 0 18px;
+}
+
+/* ══════════════════════════════════════════════════════════════════════════════
+   VISTA PRINCIPAL / MAIN VIEW
+   ══════════════════════════════════════════════════════════════════════════════ */
+.fin-grid-principal {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1.2fr;   /* segunda fila más alta para la gráfica */
+  gap: 22px;
+  width: 100%;
+}
+
+/* Tarjeta ingresos / Income card */
+.fin-card-ingresos {
+  grid-column: 1;
+  grid-row: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  justify-content: space-between;
+}
+
+.fin-ingreso-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.fin-ingreso-label {
+  color: rgba(220,210,200,0.75);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.fin-ingreso-valor {
+  color: #e8ddd0;
+  font-size: 16px;       /* más grande / larger */
+  white-space: nowrap;
+  font-weight: 400;
+}
+
+.fin-btn-ganancia {
+  margin-top: auto;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 10px;
+  padding: 14px 20px;    /* más alto / taller */
+  color: #e8ddd0;
+  font-family: 'Georgia', serif;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.2s;
+  text-align: center;
+}
+.fin-btn-ganancia:hover { background: rgba(255,255,255,0.1); }
+
+/* Tarjeta resumen / Summary card */
+.fin-card-resumen {
+  grid-column: 2;
+  grid-row: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  justify-content: space-between;
+}
+
+.fin-resumen-sub {
+  color: rgba(220,210,200,0.6);
+  font-size: 14px;
+  margin: 0;
+  flex: 1;
+}
+
+.fin-btn-consultar {
+  background: linear-gradient(135deg, #c8903a 0%, #b07030 100%);
+  border: none;
+  border-radius: 10px;
+  padding: 14px 24px;
+  color: #fff;
+  font-family: 'Georgia', serif;
+  font-size: 15px;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition: opacity 0.2s, transform 0.15s;
+}
+.fin-btn-consultar:hover { opacity: 0.88; transform: translateY(-1px); }
+
+/* Tarjeta gráfica — fila completa de abajo / Chart card — full bottom row */
+.fin-card-grafica {
+  grid-column: 1 / -1;
+  grid-row: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.fin-chart-svg { display: block; }
+
+/* ══════════════════════════════════════════════════════════════════════════════
+   VISTA COMISIONES / COMMISSIONS VIEW
+   ══════════════════════════════════════════════════════════════════════════════ */
+.fin-grid-comisiones {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 22px;
+  width: 100%;
+  align-items: stretch;
+}
+
+.fin-card-comisiones {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.fin-comision-titulo {
+  color: #e8ddd0;
+  font-size: 20px;
+  margin: 0;
+}
+
+.fin-comision-total {
+  color: #e8ddd0;
+  font-size: 36px;       /* más grande / larger */
+  font-weight: 400;
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+
+.fin-tiendas-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  border-radius: 10px;
+  overflow: hidden;
+  flex: 1;
+}
+
+.fin-tienda-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 16px;    /* más padding / more padding */
+  background: rgba(255,255,255,0.03);
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  transition: background 0.15s;
+}
+.fin-tienda-row:hover { background: rgba(255,255,255,0.06); }
+
+.fin-tienda-nombre { color: rgba(220,210,200,0.8); font-size: 14px; }
+.fin-tienda-valor  { color: #e8ddd0; font-size: 14px; }
+
+.fin-btn-volver-vista {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(205,140,70,0.3);
+  border-radius: 10px;
+  padding: 12px 18px;
+  color: rgba(205,140,70,0.85);
+  font-family: 'Georgia', serif;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.15s;
+}
+.fin-btn-volver-vista:hover { background: rgba(205,140,70,0.1); transform: translateY(-1px); }
+
+/* Panel derecho principales / Right main stores panel */
+.fin-card-principales {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  justify-content: center;
+}
+
+.fin-principales-titulo {
+  color: #e8ddd0;
+  font-size: 18px;
+  margin: 0;
+}
+
+.fin-porcentaje {
+  color: #e8ddd0;
+  font-size: 52px;       /* más grande / larger */
+  font-weight: 400;
+  margin: 0;
+  letter-spacing: -0.02em;
+}
+
+.fin-principales-detalle { display: flex; flex-direction: column; gap: 14px; }
+
+.fin-detalle-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+.fin-detalle-row:last-child { border-bottom: none; padding-bottom: 0; }
+
+.fin-detalle-label { color: rgba(220,210,200,0.55); font-size: 14px; }
+.fin-detalle-valor { color: #e8ddd0; font-size: 14px; }
+
+/* ══════════════════════════════════════════════════════════════════════════════
+   MODAL GANANCIA NETA / NET PROFIT MODAL
+   ══════════════════════════════════════════════════════════════════════════════ */
+.fin-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.55);
+  backdrop-filter: blur(3px);
+  z-index: 10;
+}
+
+.fin-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 11;
+  width: 380px;
+  background: #1e2535;
+  border: 1px solid rgba(205,140,70,0.25);
+  border-radius: 18px;
+  padding: 30px 34px 34px;
+  box-shadow: 0 30px 80px rgba(0,0,0,0.6);
+}
+
+.fin-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 18px;
+}
+
+.fin-modal-titulo {
+  color: rgba(205,140,70,0.9);
+  font-size: 22px;
+  font-weight: 400;
+  letter-spacing: 0.03em;
+  margin: 0;
+}
+
+.fin-modal-cerrar {
+  background: transparent;
+  border: none;
+  color: rgba(220,210,200,0.5);
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  transition: color 0.2s;
+}
+.fin-modal-cerrar:hover { color: rgba(220,210,200,0.9); }
+
+.fin-modal-divider {
+  height: 1px;
+  background: rgba(255,255,255,0.07);
+  margin-bottom: 26px;
+}
+
+.fin-modal-body { display: flex; flex-direction: column; gap: 20px; }
+
+.fin-modal-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+
+.fin-modal-label { color: rgba(220,210,200,0.6); font-size: 14px; }
+.fin-modal-valor { color: #e8ddd0; font-size: 16px; }
+
+.fin-modal-crecimiento.positivo { color: #6dbf7e; font-size: 16px; }
+.fin-modal-crecimiento.negativo { color: #e07070; font-size: 16px; }
+
+/* ─── Responsive ─────────────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .fin-main { padding: 0 20px 30px; }
+  .fin-grid-principal,
+  .fin-grid-comisiones { grid-template-columns: 1fr; }
+  .fin-card-grafica { grid-column: 1; }
+  .fin-modal { width: 90%; }
+}

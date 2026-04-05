@@ -1,0 +1,345 @@
+/* Estilos de la pantalla de Tiendas Activas */
+/* Active Stores screen styles               */
+
+/* ─── Página / Page ──────────────────────────────────────────────────────────── */
+.tnd-page {
+  width: 100vw;
+  height: 100vh;
+  background: linear-gradient(135deg, #1a2030 0%, #151c2c 60%, #111827 100%);
+  display: flex;
+  flex-direction: column;
+  font-family: 'Georgia', serif;
+  overflow: hidden;
+  position: relative;
+}
+
+.tnd-noise {
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+/* ─── Header ─────────────────────────────────────────────────────────────────── */
+.tnd-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 22px 48px;
+  z-index: 1;
+  flex-shrink: 0;
+}
+
+.tnd-logo {
+  width: 80px;
+  height: auto;
+  object-fit: contain;
+}
+
+.tnd-title {
+  color: rgba(205, 140, 70, 0.9);
+  font-size: 26px;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  margin: 0;
+}
+
+.tnd-back-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(205, 140, 70, 0.3);
+  border-radius: 10px;
+  padding: 10px 18px;
+  color: rgba(205, 140, 70, 0.85);
+  font-family: 'Georgia', serif;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.15s;
+}
+
+.tnd-back-btn:hover {
+  background: rgba(205, 140, 70, 0.1);
+  transform: translateY(-1px);
+}
+
+/* ─── Main ───────────────────────────────────────────────────────────────────── */
+.tnd-main {
+  flex: 1;
+  z-index: 1;
+  padding: 0 48px 40px;
+  overflow: hidden;
+}
+
+/* Layout dos columnas / Two column layout */
+.tnd-layout {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 28px;
+  height: 100%;
+}
+
+/* ─── Títulos de panel / Panel titles ────────────────────────────────────────── */
+.tnd-panel-titulo {
+  color: #e8ddd0;
+  font-size: 15px;
+  letter-spacing: 0.02em;
+  margin: 0 0 16px;
+}
+
+/* ─── Tarjeta base / Base card ───────────────────────────────────────────────── */
+.tnd-card {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 16px;
+  padding: 22px 24px;
+}
+
+/* ══════════════════════════════════════════════════════════════════════════════
+   PANEL IZQUIERDO — LISTA DE TIENDAS / LEFT PANEL — STORE LIST
+   ══════════════════════════════════════════════════════════════════════════════ */
+.tnd-panel-izq {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 16px;
+  padding: 22px 20px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.tnd-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  overflow-y: auto;
+}
+
+/* Item de tienda / Store item */
+.tnd-tienda-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 12px;
+  padding: 12px 14px;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.tnd-tienda-item:hover {
+  background: rgba(255, 255, 255, 0.07);
+}
+
+.tnd-tienda-item.seleccionada {
+  border-color: rgba(205, 140, 70, 0.4);
+  background: rgba(205, 140, 70, 0.06);
+}
+
+/* Placeholder imagen tienda / Store image placeholder */
+.tnd-tienda-img-placeholder {
+  width: 44px;
+  height: 44px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.tnd-tienda-nombre {
+  color: rgba(220, 210, 200, 0.85);
+  font-size: 13px;
+  flex: 1;
+}
+
+/* Badge inactiva / Inactive badge */
+.tnd-badge-inactiva {
+  background: rgba(205, 140, 70, 0.85);
+  color: #fff;
+  font-size: 11px;
+  padding: 4px 10px;
+  border-radius: 20px;
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+}
+
+/* ── Toggle switch ── */
+.tnd-toggle {
+  position: relative;
+  width: 42px;
+  height: 24px;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  transition: background 0.25s;
+  flex-shrink: 0;
+  padding: 0;
+}
+
+.tnd-toggle.on  { background: rgba(205, 140, 70, 0.9); }
+.tnd-toggle.off { background: rgba(255, 255, 255, 0.15); }
+
+.tnd-toggle-thumb {
+  position: absolute;
+  top: 3px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #fff;
+  transition: left 0.25s;
+  display: block;
+}
+
+.tnd-toggle.on  .tnd-toggle-thumb { left: 21px; }
+.tnd-toggle.off .tnd-toggle-thumb { left: 3px;  }
+
+/* ══════════════════════════════════════════════════════════════════════════════
+   PANEL DERECHO / RIGHT PANEL
+   ══════════════════════════════════════════════════════════════════════════════ */
+.tnd-panel-der {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  overflow: hidden;
+}
+
+/* ── Tabs ── */
+.tnd-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.tnd-tab {
+  padding: 9px 20px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.04);
+  color: rgba(220, 210, 200, 0.6);
+  font-family: 'Georgia', serif;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+
+.tnd-tab.activo {
+  background: rgba(205, 140, 70, 0.85);
+  border-color: transparent;
+  color: #fff;
+}
+
+.tnd-tab:not(.activo):hover {
+  background: rgba(255, 255, 255, 0.07);
+  color: rgba(220, 210, 200, 0.9);
+}
+
+/* ── Grid de productos / Products grid ── */
+.tnd-productos-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+.tnd-producto-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Placeholder imagen producto / Product image placeholder */
+.tnd-producto-img {
+  width: 70px;
+  height: 70px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tnd-producto-nombre {
+  color: rgba(220, 210, 200, 0.7);
+  font-size: 12px;
+  text-align: center;
+}
+
+/* Tab vacío / Empty tab */
+.tnd-tab-vacio {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 80px;
+  color: rgba(220, 210, 200, 0.3);
+  font-size: 14px;
+}
+
+/* ── Acciones administrativas / Administrative actions ── */
+.tnd-card-acciones {
+  flex-shrink: 0;
+}
+
+.tnd-accion-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 18px;
+}
+
+.tnd-accion-label {
+  color: rgba(220, 210, 200, 0.8);
+  font-size: 14px;
+}
+
+.tnd-acciones-btns {
+  display: flex;
+  gap: 12px;
+}
+
+.tnd-btn-advertencia {
+  padding: 11px 22px;
+  background: rgba(205, 140, 70, 0.85);
+  border: none;
+  border-radius: 10px;
+  color: #fff;
+  font-family: 'Georgia', serif;
+  font-size: 13px;
+  cursor: pointer;
+  transition: opacity 0.2s, transform 0.15s;
+}
+
+.tnd-btn-advertencia:hover {
+  opacity: 0.88;
+  transform: translateY(-1px);
+}
+
+.tnd-btn-historial {
+  padding: 11px 22px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  color: rgba(220, 210, 200, 0.75);
+  font-family: 'Georgia', serif;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.15s;
+}
+
+.tnd-btn-historial:hover {
+  background: rgba(255, 255, 255, 0.09);
+  transform: translateY(-1px);
+}
+
+/* ─── Responsive ─────────────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .tnd-main { padding: 0 20px 30px; }
+  .tnd-layout { grid-template-columns: 1fr; }
+  .tnd-productos-grid { grid-template-columns: repeat(2, 1fr); }
+}
