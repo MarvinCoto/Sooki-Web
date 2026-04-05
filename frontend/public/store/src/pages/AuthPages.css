@@ -1,0 +1,118 @@
+/* ===== AUTH PAGES (VerifyEmail, PasswordRecovery, VerifyCode, ResetPassword) ===== */
+.auth-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f8fafc;
+  padding: 24px;
+}
+
+.auth-card {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  max-width: 860px;
+  width: 100%;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12);
+}
+
+/* ===== PANEL IZQUIERDO ===== */
+.auth-left {
+  position: relative;
+  overflow: hidden;
+  min-height: 420px;
+}
+
+.auth-bg-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.auth-left-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(27,43,68,0.85) 0%, rgba(27,43,68,0.3) 60%, transparent 100%);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 36px 32px;
+  color: #fff;
+}
+
+.auth-left-overlay h2 {
+  font-size: 1.5rem;
+  font-weight: 800;
+  margin: 0 0 8px;
+  color: #fff;
+}
+
+.auth-left-overlay p {
+  font-size: 0.88rem;
+  color: rgba(255, 255, 255, 0.8);
+  margin: 0;
+}
+
+/* ===== PANEL DERECHO ===== */
+.auth-right {
+  background-color: #fff;
+  padding: 48px 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  justify-content: center;
+}
+
+.auth-logo {
+  height: 44px;
+  width: auto;
+  object-fit: contain;
+}
+
+.auth-description {
+  font-size: 0.88rem;
+  color: #64748b;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.auth-resend-btn {
+  background: none;
+  border: none;
+  color: #FF8C42;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-align: center;
+  padding: 0;
+  transition: color 0.2s;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.auth-resend-btn:hover:not(:disabled) {
+  color: #e67a2e;
+}
+
+.auth-resend-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 640px) {
+  .auth-card {
+    grid-template-columns: 1fr;
+  }
+
+  .auth-left {
+    display: none;
+  }
+
+  .auth-right {
+    padding: 36px 24px;
+  }
+}
