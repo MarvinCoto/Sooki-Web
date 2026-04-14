@@ -1,13 +1,40 @@
 import { useState } from "react";
 import StoreLayout from "../components/layout/StoreLayout";
-import { useProducts, getStockStatus } from "../hooks/products/useProducts";
+import { useProducts, getStockStatus, formatPrice } from "../hooks/products/useProducts";
 import VariantsModal from "../components/variants/VariantsModal";
 import "../styles/sidebar.css";
 
-const StockBadge = ({ stock }) => {
+const StockBadge = ({ stock, variantCount }) => {
+    if (variantCount === 0) {
+        return <span className="stock-badge" style={{ background: "#f1f5f9", color: "#94a3b8" }}>Sin variantes</span>;
+    }
     const status = getStockStatus(stock);
     const labels = { ok: `${stock} en stock`, low: `${stock} — bajo`, out: "Sin stock" };
     return <span className={`stock-badge stock-${status}`}>{labels[status]}</span>;
+};
+
+const PriceDisplay = ({ product }) => {
+    const price = formatPrice(product);
+    if (!price || price === "Sin precio") {
+        return <span style={{ fontSize: "0.85rem", color: "var(--text-muted)" }}>Sin precio</span>;
+    }
+    if (price.discounted) {
+        return (
+            <div style={{ textAlign: "right" }}>
+                <span style={{ fontSize: "0.75rem", color: "var(--text-muted)", textDecoration: "line-through", display: "block" }}>
+                    {price.original}
+                </span>
+                <span style={{ fontFamily: "'Sora', sans-serif", fontSize: "0.9rem", fontWeight: "700", color: "var(--orange)" }}>
+                    {price.discounted}
+                </span>
+            </div>
+        );
+    }
+    return (
+        <span style={{ fontFamily: "'Sora', sans-serif", fontSize: "0.9rem", fontWeight: "700", color: "var(--orange)", whiteSpace: "nowrap" }}>
+            {price.original}
+        </span>
+    );
 };
 
 const ProductsScreen = () => {
@@ -17,6 +44,7 @@ const ProductsScreen = () => {
         openModal, closeModal, updateForm,
         handleImageChange, removePreview,
         handleSave, handleDelete, handleToggleStatus,
+        fetchAll,
     } = useProducts();
 
     const [variantsProduct, setVariantsProduct] = useState(null);
@@ -30,7 +58,7 @@ const ProductsScreen = () => {
                 </div>
                 <button className="btn-add" onClick={() => openModal("create")}>
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                        <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+                        <line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" />
                     </svg>
                     Nuevo Producto
                 </button>
@@ -42,7 +70,7 @@ const ProductsScreen = () => {
             {!loading && products.length === 0 && (
                 <div className="card empty-state">
                     <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="var(--border)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                        <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 2 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+                        <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 2 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
                     </svg>
                     <p>No tienes productos aun. Crea tu primer producto.</p>
                 </div>
@@ -59,19 +87,27 @@ const ProductsScreen = () => {
                             ) : (
                                 <div style={{ width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center" }}>
                                     <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="var(--border)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                                        <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/>
-                                        <polyline points="21 15 16 10 5 21"/>
+                                        <rect x="3" y="3" width="18" height="18" rx="2" /><circle cx="8.5" cy="8.5" r="1.5" />
+                                        <polyline points="21 15 16 10 5 21" />
                                     </svg>
                                 </div>
                             )}
-                            <button onClick={() => handleToggleStatus(product._id)}
+                            {/* Badge inactivo */}
+                            {!product.status && (
+                                <div style={{ position: "absolute", top: "8px", left: "8px", background: "rgba(27,43,68,0.8)", borderRadius: "6px", padding: "3px 8px", fontSize: "0.72rem", color: "white", fontWeight: "600" }}>
+                                    Inactivo
+                                </div>
+                            )}
+                            {/* Toggle status */}
+                            <button
+                                onClick={() => handleToggleStatus(product._id, product.name)}
                                 style={{
                                     position: "absolute", top: "8px", right: "8px",
-                                    background: product.status ? "rgba(56,161,105,0.9)" : "rgba(229,62,62,0.9)",
+                                    background: product.status ? "rgba(56,161,105,0.9)" : "rgba(100,116,139,0.9)",
                                     border: "none", borderRadius: "20px", padding: "3px 10px",
                                     fontSize: "0.72rem", fontWeight: "600", color: "white", cursor: "pointer"
                                 }}>
-                                {product.status ? "Activo" : "Inactivo"}
+                                {product.status ? "Activo" : "Activar"}
                             </button>
                         </div>
 
@@ -81,9 +117,7 @@ const ProductsScreen = () => {
                                 <h3 style={{ fontFamily: "'Sora', sans-serif", fontSize: "0.9rem", fontWeight: "600", color: "var(--navy)", lineHeight: "1.3" }}>
                                     {product.name}
                                 </h3>
-                                <span style={{ fontFamily: "'Sora', sans-serif", fontSize: "0.9rem", fontWeight: "700", color: "var(--orange)", whiteSpace: "nowrap" }}>
-                                    ${parseFloat(product.basePrice).toFixed(2)}
-                                </span>
+                                <PriceDisplay product={product} />
                             </div>
 
                             <p style={{ fontSize: "0.78rem", color: "var(--text-muted)", marginBottom: "10px" }}>
@@ -91,11 +125,18 @@ const ProductsScreen = () => {
                             </p>
 
                             <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "12px" }}>
-                                <StockBadge stock={product.totalStock ?? 0} />
+                                <StockBadge stock={product.totalStock ?? 0} variantCount={product.variantCount ?? 0} />
                                 <span style={{ fontSize: "0.75rem", color: "var(--text-muted)" }}>
                                     {product.variantCount} variante{product.variantCount !== 1 ? "s" : ""}
                                 </span>
                             </div>
+
+                            {/* Descuento activo */}
+                            {product.discount?.active && product.discount?.percentage > 0 && (
+                                <div style={{ background: "#fff5ee", border: "1px solid rgba(255,140,66,0.3)", borderRadius: "6px", padding: "4px 10px", marginBottom: "10px", fontSize: "0.75rem", color: "var(--orange)", fontWeight: "600" }}>
+                                    {product.discount.percentage}% de descuento activo
+                                </div>
+                            )}
 
                             {/* Acciones */}
                             <div style={{ display: "flex", gap: "6px", borderTop: "1px solid var(--bg)", paddingTop: "12px" }}>
@@ -110,8 +151,8 @@ const ProductsScreen = () => {
                                 <button onClick={() => openModal("delete", product)}
                                     style={{ background: "none", border: "1px solid #fed7d7", borderRadius: "6px", padding: "7px 10px", cursor: "pointer", color: "var(--error)" }}>
                                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                        <polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/>
-                                        <path d="M10 11v6"/><path d="M14 11v6"/>
+                                        <polyline points="3 6 5 6 21 6" /><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" />
+                                        <path d="M10 11v6" /><path d="M14 11v6" />
                                     </svg>
                                 </button>
                             </div>
@@ -120,7 +161,7 @@ const ProductsScreen = () => {
                 ))}
             </div>
 
-            {/* Modal crear/editar producto */}
+            {/* Modal crear/editar */}
             {modal.open && (modal.type === "create" || modal.type === "edit") && (
                 <div className="modal-overlay" onClick={closeModal}>
                     <div className="modal" style={{ maxWidth: "580px" }} onClick={(e) => e.stopPropagation()}>
@@ -134,6 +175,7 @@ const ProductsScreen = () => {
                                     {formErrors.general}
                                 </div>
                             )}
+
                             <div className="field">
                                 <label>Nombre del producto</label>
                                 <input type="text" placeholder="Ej: Camisa de lino" value={form.name}
@@ -141,57 +183,90 @@ const ProductsScreen = () => {
                                     className={formErrors.name ? "error" : ""} />
                                 {formErrors.name && <span className="field-error">{formErrors.name}</span>}
                             </div>
+
                             <div className="field">
                                 <label>Descripcion <span style={{ color: "var(--text-muted)", fontWeight: 400 }}>(opcional)</span></label>
                                 <textarea placeholder="Describe tu producto..." value={form.description}
                                     onChange={(e) => updateForm("description", e.target.value)} />
                             </div>
-                            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px" }}>
-                                <div className="field">
-                                    <label>Categoria</label>
-                                    <select value={form.idCategory} onChange={(e) => updateForm("idCategory", e.target.value)}
-                                        className={formErrors.idCategory ? "error" : ""}>
-                                        <option value="">Seleccionar...</option>
-                                        {categories.map((c) => (
-                                            <option key={c._id} value={c._id}>
-                                                {c.parent ? `  — ${c.name}` : c.name}
-                                            </option>
-                                        ))}
-                                    </select>
-                                    {formErrors.idCategory && <span className="field-error">{formErrors.idCategory}</span>}
-                                </div>
-                                <div className="field">
-                                    <label>Precio base ($)</label>
-                                    <input type="number" placeholder="0.00" min="0" step="0.01"
-                                        value={form.basePrice} onChange={(e) => updateForm("basePrice", e.target.value)}
-                                        className={formErrors.basePrice ? "error" : ""} />
-                                    {formErrors.basePrice && <span className="field-error">{formErrors.basePrice}</span>}
-                                </div>
+
+                            <div className="field">
+                                <label>Categoria</label>
+                                <select value={form.idCategory} onChange={(e) => updateForm("idCategory", e.target.value)}
+                                    className={formErrors.idCategory ? "error" : ""}>
+                                    <option value="">Seleccionar...</option>
+                                    {categories.map((c) => (
+                                        <option key={c._id} value={c._id}>
+                                            {c.parent ? `  — ${c.name}` : c.name}
+                                        </option>
+                                    ))}
+                                </select>
+                                {formErrors.idCategory && <span className="field-error">{formErrors.idCategory}</span>}
                             </div>
-                            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px" }}>
+
+                            {/* Variante inicial — solo en create */}
+                            {modal.type === "create" && (
+                                <div style={{ background: "var(--bg)", borderRadius: "10px", padding: "16px", marginBottom: "4px" }}>
+                                    <p style={{ fontFamily: "'Sora', sans-serif", fontSize: "0.85rem", fontWeight: "700", color: "var(--navy)", marginBottom: "12px" }}>
+                                        Variante inicial
+                                    </p>
+                                    <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px" }}>
+                                        <div className="field" style={{ marginBottom: 0 }}>
+                                            <label>Precio ($)</label>
+                                            <input type="number" placeholder="0.00" min="0" step="0.01"
+                                                value={form.variantPrice}
+                                                onChange={(e) => updateForm("variantPrice", e.target.value)}
+                                                className={formErrors.variantPrice ? "error" : ""} />
+                                            {formErrors.variantPrice && <span className="field-error">{formErrors.variantPrice}</span>}
+                                        </div>
+                                        <div className="field" style={{ marginBottom: 0 }}>
+                                            <label>Stock</label>
+                                            <input type="number" placeholder="0" min="0"
+                                                value={form.variantStock}
+                                                onChange={(e) => updateForm("variantStock", e.target.value)}
+                                                className={formErrors.variantStock ? "error" : ""} />
+                                            {formErrors.variantStock && <span className="field-error">{formErrors.variantStock}</span>}
+                                        </div>
+                                    </div>
+                                    <p style={{ fontSize: "0.75rem", color: "var(--text-muted)", marginTop: "8px" }}>
+                                        Podras agregar mas variantes desde el boton "Variantes" despues de crear el producto.
+                                    </p>
+                                </div>
+                            )}
+
+                            {/* Descuento */}
+                            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px", marginTop: "4px" }}>
                                 <div className="field">
                                     <label>Descuento (%) <span style={{ color: "var(--text-muted)", fontWeight: 400 }}>(opcional)</span></label>
                                     <input type="number" placeholder="0" min="0" max="100"
                                         value={form.discountPercentage}
                                         onChange={(e) => updateForm("discountPercentage", e.target.value)} />
                                 </div>
-                                <div className="field">
-                                    <label>Estado</label>
-                                    <label style={{ display: "flex", alignItems: "center", gap: "8px", cursor: "pointer", paddingTop: "10px" }}>
+                                <div className="field" style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+                                    <label>Opciones</label>
+                                    <label style={{ display: "flex", alignItems: "center", gap: "8px", cursor: "pointer" }}>
+                                        <input type="checkbox" checked={form.discountActive}
+                                            onChange={(e) => updateForm("discountActive", e.target.checked)}
+                                            style={{ accentColor: "var(--orange)", width: "16px", height: "16px" }} />
+                                        <span style={{ fontSize: "0.875rem", color: "var(--navy)" }}>Descuento activo</span>
+                                    </label>
+                                    <label style={{ display: "flex", alignItems: "center", gap: "8px", cursor: "pointer" }}>
                                         <input type="checkbox" checked={form.status}
                                             onChange={(e) => updateForm("status", e.target.checked)}
                                             style={{ accentColor: "var(--navy)", width: "16px", height: "16px" }} />
-                                        <span style={{ fontSize: "0.875rem", color: "var(--navy)" }}>Activo</span>
+                                        <span style={{ fontSize: "0.875rem", color: "var(--navy)" }}>Producto activo</span>
                                     </label>
                                 </div>
                             </div>
+
+                            {/* Imagenes */}
                             <div className="field">
                                 <label>Imagenes <span style={{ color: "var(--text-muted)", fontWeight: 400 }}>({form.previews.length}/5)</span></label>
                                 {form.previews.length < 5 && (
                                     <label style={{ display: "flex", alignItems: "center", gap: "10px", background: "var(--bg)", border: "1.5px dashed var(--border)", borderRadius: "var(--radius)", padding: "10px 14px", cursor: "pointer" }}>
                                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                            <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/>
-                                            <polyline points="21 15 16 10 5 21"/>
+                                            <rect x="3" y="3" width="18" height="18" rx="2" /><circle cx="8.5" cy="8.5" r="1.5" />
+                                            <polyline points="21 15 16 10 5 21" />
                                         </svg>
                                         <span style={{ fontSize: "0.85rem", color: "var(--text-muted)" }}>Seleccionar imagenes</span>
                                         <input type="file" multiple accept="image/*" onChange={handleImageChange} style={{ display: "none" }} />
@@ -252,7 +327,10 @@ const ProductsScreen = () => {
             {variantsProduct && (
                 <VariantsModal
                     product={variantsProduct}
-                    onClose={() => setVariantsProduct(null)}
+                    onClose={() => {
+                        setVariantsProduct(null);
+                        fetchAll(); // recargar productos al cerrar variantes
+                    }}
                 />
             )}
         </StoreLayout>

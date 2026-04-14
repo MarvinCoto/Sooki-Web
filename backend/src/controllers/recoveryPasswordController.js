@@ -53,7 +53,7 @@ passwordRecoveryController.requestCode = async (req, res) => {
         // Obtener el nombre según el tipo de usuario
         const name = userType === "client"
             ? userFound.name
-            : userFound.ownerName;
+            : userFound.storeName;
 
         await sendPasswordRecoveryEmail(email, code, name);
 

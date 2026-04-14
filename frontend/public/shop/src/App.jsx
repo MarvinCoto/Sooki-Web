@@ -6,6 +6,7 @@ import RecoveryScreen from './screens/RecoveryScreen';
 import DashboardScreen from './screens/DashboardScreen';
 import ProductsScreen from './screens/ProductsScreen';
 import CategoriesScreen from './screens/CategoriesScreen';
+import MyStoreScreen from './screens/MyStoreScreen';
 import ProtectedRoute from './components/auth/ProtectedRoute';
 
 function App() {
@@ -31,6 +32,11 @@ function App() {
             <Route path="/categorias" element={
                 <ProtectedRoute allowedRoles={["store"]}>
                     <CategoriesScreen />
+                </ProtectedRoute>
+            } />
+            <Route path="/mi-tienda" element={
+                <ProtectedRoute allowedRoles={["store"]}>
+                    <MyStoreScreen />
                 </ProtectedRoute>
             } />
             <Route path="/pedidos" element={

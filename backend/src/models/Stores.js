@@ -34,6 +34,25 @@ const storesSchema = new Schema({
         default: []
     },
 
+    // --- About ---
+    about: {
+        description: { type: String, trim: true, default: "" },
+        mission: { type: String, trim: true, default: "" },
+        vision: { type: String, trim: true, default: "" },
+        images: {
+            type: [String],
+            default: ["", "", ""], // [0] descripcion, [1] mision, [2] vision
+            validate: {
+                validator: (arr) => arr.length <= 3,
+                message: "About images cannot exceed 3"
+            }
+        },
+        isActive: {
+        type: Boolean,
+        default: false  // inactivo hasta que tenga contenido
+    }
+    },
+
     // --- Credenciales de acceso ---
     username: {
         type: String,
@@ -46,7 +65,7 @@ const storesSchema = new Schema({
         minlength: [8, "Password must be at least 8 characters"]
     },
 
-    // --- Email (necesario para login) ---
+    // --- Email ---
     email: {
         type: String,
         required: true,

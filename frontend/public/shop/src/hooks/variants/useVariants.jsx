@@ -4,36 +4,24 @@ import {
     createValueService, deleteValueService,
     getVariantsService, createVariantService, updateVariantService, deleteVariantService,
 } from "../../services/variantsService";
+import { useAlert } from "../../context/AlertContext";
 
 export const useVariants = (productId) => {
+    const { showAlert } = useAlert();
+
     const [attributes, setAttributes] = useState([]);
     const [variants, setVariants] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    // UI state
-    const [activeTab, setActiveTab] = useState("variants"); // "variants" | "attributes"
+    const [activeTab, setActiveTab] = useState("variants");
 
-    // Attribute form
     const [attrForm, setAttrForm] = useState({ open: false, name: "", editId: null, error: null, saving: false });
-
-    // Value form
     const [valueForm, setValueForm] = useState({ open: false, attributeId: null, value: "", error: null, saving: false });
-
-    // Variant form
     const [variantForm, setVariantForm] = useState({
-        open: false,
-        editId: null,
-        price: "",
-        stock: "",
-        status: true,
-        selectedAttrs: {}, // { attributeId: valueId }
-        error: null,
-        saving: false,
+        open: false, editId: null, price: "", stock: "",
+        status: true, selectedAttrs: {}, error: null, saving: false,
     });
-
-    // Delete confirm
-    const [deleteConfirm, setDeleteConfirm] = useState({ open: false, type: null, id: null, name: "" });
 
     const fetchAll = useCallback(async () => {
         if (!productId) return;
@@ -56,11 +44,11 @@ export const useVariants = (productId) => {
 
     // ─── ATTRIBUTES ───────────────────────────────────────
 
-    const openAttrForm = (attr = null) => {
+    const openAttrForm = (attr = null) =>
         setAttrForm({ open: true, name: attr ? attr.name : "", editId: attr ? attr._id : null, error: null, saving: false });
-    };
 
-    const closeAttrForm = () => setAttrForm({ open: false, name: "", editId: null, error: null, saving: false });
+    const closeAttrForm = () =>
+        setAttrForm({ open: false, name: "", editId: null, error: null, saving: false });
 
     const saveAttribute = async () => {
         if (!attrForm.name.trim() || attrForm.name.trim().length < 2) {
@@ -71,23 +59,26 @@ export const useVariants = (productId) => {
         try {
             if (attrForm.editId) {
                 await updateAttributeService(attrForm.editId, attrForm.name.trim());
+                showAlert("success", `Atributo "${attrForm.name.trim()}" actualizado`);
             } else {
                 await createAttributeService(attrForm.name.trim());
+                showAlert("success", `Atributo "${attrForm.name.trim()}" creado`);
             }
             await fetchAll();
             closeAttrForm();
         } catch (err) {
             setAttrForm((p) => ({ ...p, error: err.message, saving: false }));
+            showAlert("error", err.message);
         }
     };
 
     // ─── VALUES ───────────────────────────────────────────
 
-    const openValueForm = (attributeId) => {
+    const openValueForm = (attributeId) =>
         setValueForm({ open: true, attributeId, value: "", error: null, saving: false });
-    };
 
-    const closeValueForm = () => setValueForm({ open: false, attributeId: null, value: "", error: null, saving: false });
+    const closeValueForm = () =>
+        setValueForm({ open: false, attributeId: null, value: "", error: null, saving: false });
 
     const saveValue = async () => {
         if (!valueForm.value.trim()) {
@@ -97,10 +88,12 @@ export const useVariants = (productId) => {
         setValueForm((p) => ({ ...p, saving: true, error: null }));
         try {
             await createValueService(valueForm.attributeId, valueForm.value.trim());
+            showAlert("success", `Valor "${valueForm.value.trim()}" agregado`);
             await fetchAll();
             closeValueForm();
         } catch (err) {
             setValueForm((p) => ({ ...p, error: err.message, saving: false }));
+            showAlert("error", err.message);
         }
     };
 
@@ -112,23 +105,19 @@ export const useVariants = (productId) => {
             variant.attributes?.forEach((a) => {
                 selectedAttrs[a.idAttribute._id] = a.idValue._id;
             });
-            setVariantForm({
-                open: true, editId: variant._id,
-                price: variant.price, stock: variant.stock, status: variant.status,
-                selectedAttrs, error: null, saving: false,
-            });
+            setVariantForm({ open: true, editId: variant._id, price: variant.price, stock: variant.stock, status: variant.status, selectedAttrs, error: null, saving: false });
         } else {
             setVariantForm({ open: true, editId: null, price: "", stock: "", status: true, selectedAttrs: {}, error: null, saving: false });
         }
     };
 
-    const closeVariantForm = () => setVariantForm({ open: false, editId: null, price: "", stock: "", status: true, selectedAttrs: {}, error: null, saving: false });
+    const closeVariantForm = () =>
+        setVariantForm({ open: false, editId: null, price: "", stock: "", status: true, selectedAttrs: {}, error: null, saving: false });
 
     const updateVariantField = (field, value) => setVariantForm((p) => ({ ...p, [field]: value }));
 
-    const selectAttrValue = (attributeId, valueId) => {
+    const selectAttrValue = (attributeId, valueId) =>
         setVariantForm((p) => ({ ...p, selectedAttrs: { ...p.selectedAttrs, [attributeId]: valueId } }));
-    };
 
     const saveVariant = async () => {
         if (!variantForm.price || parseFloat(variantForm.price) < 0) {
@@ -137,7 +126,9 @@ export const useVariants = (productId) => {
         }
         setVariantForm((p) => ({ ...p, saving: true, error: null }));
         try {
-            const attrs = Object.entries(variantForm.selectedAttrs).map(([idAttribute, idValue]) => ({ idAttribute, idValue }));
+            const attrs = Object.entries(variantForm.selectedAttrs)
+                .filter(([, v]) => v)
+                .map(([idAttribute, idValue]) => ({ idAttribute, idValue }));
             const payload = {
                 price: parseFloat(variantForm.price),
                 stock: parseInt(variantForm.stock) || 0,
@@ -146,32 +137,38 @@ export const useVariants = (productId) => {
             };
             if (variantForm.editId) {
                 await updateVariantService(variantForm.editId, payload);
+                showAlert("success", "Variante actualizada correctamente");
             } else {
                 await createVariantService(productId, payload);
+                showAlert("success", "Variante creada correctamente");
             }
             await fetchAll();
             closeVariantForm();
         } catch (err) {
             setVariantForm((p) => ({ ...p, error: err.message, saving: false }));
+            showAlert("error", err.message);
         }
     };
 
     // ─── DELETE ───────────────────────────────────────────
 
-    const openDeleteConfirm = (type, id, name) => setDeleteConfirm({ open: true, type, id, name });
-    const closeDeleteConfirm = () => setDeleteConfirm({ open: false, type: null, id: null, name: "" });
-
-    const confirmDelete = async () => {
-        try {
-            if (deleteConfirm.type === "attribute") await deleteAttributeService(deleteConfirm.id);
-            if (deleteConfirm.type === "value") await deleteValueService(deleteConfirm.id);
-            if (deleteConfirm.type === "variant") await deleteVariantService(deleteConfirm.id);
-            await fetchAll();
-            closeDeleteConfirm();
-        } catch (err) {
-            setError(err.message);
-            closeDeleteConfirm();
-        }
+    const openDeleteConfirm = (type, id, name) => {
+        const messages = {
+            attribute: `¿Eliminar el atributo "${name}"? Esto tambien eliminara sus valores.`,
+            value: `¿Eliminar el valor "${name}"?`,
+            variant: `¿Eliminar la variante "$${name}"?`,
+        };
+        showAlert("delete", messages[type], async () => {
+            try {
+                if (type === "attribute") await deleteAttributeService(id);
+                if (type === "value") await deleteValueService(id);
+                if (type === "variant") await deleteVariantService(id);
+                await fetchAll();
+                showAlert("success", "Eliminado correctamente");
+            } catch (err) {
+                showAlert("error", err.message);
+            }
+        });
     };
 
     return {
@@ -180,6 +177,6 @@ export const useVariants = (productId) => {
         attrForm, setAttrForm, openAttrForm, closeAttrForm, saveAttribute,
         valueForm, setValueForm, openValueForm, closeValueForm, saveValue,
         variantForm, openVariantForm, closeVariantForm, updateVariantField, selectAttrValue, saveVariant,
-        deleteConfirm, openDeleteConfirm, closeDeleteConfirm, confirmDelete,
+        openDeleteConfirm,
     };
 };

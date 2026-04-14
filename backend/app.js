@@ -11,6 +11,7 @@ import productsRoutes from "./src/routes/products.js"
 import categoriesRoutes from "./src/routes/categories.js"
 import clientRoutes from "./src/routes/clients.js"
 import variantsRoutes from "./src/routes/variants.js";
+import myStoreRoutes from "./src/routes/myStore.js";
 
 //Creo una constante que es igual a la librería que importé
 const app = express();
@@ -67,6 +68,7 @@ app.use("/api/login", loginRoutes);
 app.use("/api/logout", logoutRoutes);
 app.use("/api/registerClients", registerClientsRoutes);
 app.use("/api/recoveryPassword", recoveryPasswordRoutes);
+app.use("/api/mystore", myStoreRoutes);
 
 //Exporto la constante para poder usar express en otros archivos
 export default app;

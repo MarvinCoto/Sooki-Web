@@ -7,7 +7,7 @@ const VariantsModal = ({ product, onClose }) => {
         attrForm, setAttrForm, openAttrForm, closeAttrForm, saveAttribute,
         valueForm, setValueForm, openValueForm, closeValueForm, saveValue,
         variantForm, openVariantForm, closeVariantForm, updateVariantField, selectAttrValue, saveVariant,
-        deleteConfirm, openDeleteConfirm, closeDeleteConfirm, confirmDelete,
+        openDeleteConfirm,
     } = useVariants(product._id);
 
     const stockColor = (stock) => {
@@ -73,7 +73,7 @@ const VariantsModal = ({ product, onClose }) => {
                             <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: "16px" }}>
                                 <button className="btn-add" onClick={() => openVariantForm()}>
                                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                                        <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+                                        <line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" />
                                     </svg>
                                     Nueva Variante
                                 </button>
@@ -135,15 +135,15 @@ const VariantsModal = ({ product, onClose }) => {
                                                 <button onClick={() => openVariantForm(variant)}
                                                     style={{ background: "none", border: "1px solid var(--border)", borderRadius: "6px", padding: "5px 8px", cursor: "pointer", color: "var(--text-muted)" }}>
                                                     <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                                        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
-                                                        <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+                                                        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
+                                                        <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
                                                     </svg>
                                                 </button>
                                                 <button onClick={() => openDeleteConfirm("variant", variant._id, `Variante $${variant.price}`)}
                                                     style={{ background: "none", border: "1px solid #fed7d7", borderRadius: "6px", padding: "5px 8px", cursor: "pointer", color: "var(--error)" }}>
                                                     <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                                        <polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/>
-                                                        <path d="M10 11v6"/><path d="M14 11v6"/>
+                                                        <polyline points="3 6 5 6 21 6" /><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" />
+                                                        <path d="M10 11v6" /><path d="M14 11v6" />
                                                     </svg>
                                                 </button>
                                             </div>
@@ -160,7 +160,7 @@ const VariantsModal = ({ product, onClose }) => {
                             <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: "16px" }}>
                                 <button className="btn-add" onClick={() => openAttrForm()}>
                                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                                        <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+                                        <line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" />
                                     </svg>
                                     Nuevo Atributo
                                 </button>
@@ -184,15 +184,15 @@ const VariantsModal = ({ product, onClose }) => {
                                                 <button onClick={() => openAttrForm(attr)}
                                                     style={{ background: "none", border: "none", cursor: "pointer", color: "var(--text-muted)", padding: "3px" }}>
                                                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                                        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
-                                                        <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+                                                        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
+                                                        <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
                                                     </svg>
                                                 </button>
                                                 <button onClick={() => openDeleteConfirm("attribute", attr._id, attr.name)}
                                                     style={{ background: "none", border: "none", cursor: "pointer", color: "var(--error)", padding: "3px" }}>
                                                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                                        <polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/>
-                                                        <path d="M10 11v6"/><path d="M14 11v6"/>
+                                                        <polyline points="3 6 5 6 21 6" /><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" />
+                                                        <path d="M10 11v6" /><path d="M14 11v6" />
                                                     </svg>
                                                 </button>
                                             </div>
@@ -346,27 +346,6 @@ const VariantsModal = ({ product, onClose }) => {
                                 <button className="btn-save" onClick={saveValue} disabled={valueForm.saving}>
                                     {valueForm.saving ? "Guardando..." : "Agregar"}
                                 </button>
-                            </div>
-                        </div>
-                    </div>
-                )}
-
-                {/* ─── SUBMODAL: DELETE CONFIRM ─── */}
-                {deleteConfirm.open && (
-                    <div className="modal-overlay" style={{ zIndex: 1100 }} onClick={closeDeleteConfirm}>
-                        <div className="modal" style={{ maxWidth: "360px" }} onClick={(e) => e.stopPropagation()}>
-                            <div className="modal-header">
-                                <h3 className="modal-title">Confirmar eliminacion</h3>
-                                <button className="modal-close" onClick={closeDeleteConfirm}>✕</button>
-                            </div>
-                            <div className="modal-body">
-                                <p style={{ fontSize: "0.9rem", color: "var(--text-muted)" }}>
-                                    ¿Eliminar <strong style={{ color: "var(--navy)" }}>{deleteConfirm.name}</strong>?
-                                </p>
-                            </div>
-                            <div className="modal-footer">
-                                <button className="btn-secondary" onClick={closeDeleteConfirm}>Cancelar</button>
-                                <button className="btn-danger" onClick={confirmDelete}>Eliminar</button>
                             </div>
                         </div>
                     </div>
