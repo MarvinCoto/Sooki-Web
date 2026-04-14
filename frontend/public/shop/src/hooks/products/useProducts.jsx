@@ -7,6 +7,7 @@ import {
     toggleProductStatusService,
 } from "../../services/productsService";
 import { getCategoriesService } from "../../services/categoriesService";
+import { useAlert } from "../../context/AlertContext";
 
 const STOCK_LOW = 5;
 
@@ -16,28 +17,42 @@ export const getStockStatus = (stock) => {
     return "ok";
 };
 
+export const formatPrice = (product) => {
+    if (!product.minPrice) return "Sin precio";
+    const price = product.hasMultiplePrices
+        ? `Desde $${parseFloat(product.minPrice).toFixed(2)}`
+        : `$${parseFloat(product.minPrice).toFixed(2)}`;
+
+    if (product.discount?.active && product.discount?.percentage) {
+        const final = product.minPrice - (product.minPrice * product.discount.percentage / 100);
+        return { original: price, discounted: `$${final.toFixed(2)}`, percentage: product.discount.percentage };
+    }
+    return { original: price, discounted: null };
+};
+
 const emptyForm = {
     name: "",
     description: "",
     idCategory: "",
-    basePrice: "",
-    status: true,
+    status: false,
     images: [],
     previews: [],
     discountPercentage: "",
     discountActive: false,
+    // Variante inicial — solo en create
+    variantPrice: "",
+    variantStock: "",
 };
 
 export const useProducts = () => {
+    const { showAlert } = useAlert();
+
     const [products, setProducts] = useState([]);
     const [categories, setCategories] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    // Modal
     const [modal, setModal] = useState({ open: false, type: null, product: null });
-    // type: "create" | "edit" | "delete" | "detail"
-
     const [form, setForm] = useState(emptyForm);
     const [formErrors, setFormErrors] = useState({});
     const [saving, setSaving] = useState(false);
@@ -50,7 +65,6 @@ export const useProducts = () => {
                 getCategoriesService(),
             ]);
             setProducts(prods);
-            // Aplanar categorias (padre + hijos) para el select
             const flat = [];
             cats.forEach((cat) => {
                 flat.push(cat);
@@ -75,12 +89,13 @@ export const useProducts = () => {
                 name: product.name,
                 description: product.description || "",
                 idCategory: product.idCategory?._id || product.idCategory || "",
-                basePrice: product.basePrice,
                 status: product.status,
                 images: [],
                 previews: product.images || [],
                 discountPercentage: product.discount?.percentage || "",
                 discountActive: product.discount?.active || false,
+                variantPrice: "",
+                variantStock: "",
             });
         } else {
             setForm(emptyForm);
@@ -123,8 +138,16 @@ export const useProducts = () => {
         if (!form.name.trim()) errs.name = "El nombre es requerido";
         else if (form.name.trim().length < 2) errs.name = "Minimo 2 caracteres";
         if (!form.idCategory) errs.idCategory = "La categoria es requerida";
-        if (!form.basePrice) errs.basePrice = "El precio es requerido";
-        else if (isNaN(form.basePrice) || parseFloat(form.basePrice) < 0) errs.basePrice = "Precio invalido";
+
+        // Variante inicial solo requerida en create
+        if (modal.type === "create") {
+            if (!form.variantPrice) errs.variantPrice = "El precio es requerido";
+            else if (isNaN(form.variantPrice) || parseFloat(form.variantPrice) < 0) errs.variantPrice = "Precio invalido";
+            if (form.variantStock !== "" && (isNaN(form.variantStock) || parseInt(form.variantStock) < 0)) {
+                errs.variantStock = "Stock invalido";
+            }
+        }
+
         setFormErrors(errs);
         return Object.keys(errs).length === 0;
     };
@@ -137,7 +160,6 @@ export const useProducts = () => {
             fd.append("name", form.name.trim());
             fd.append("description", form.description.trim());
             fd.append("idCategory", form.idCategory);
-            fd.append("basePrice", form.basePrice);
             fd.append("status", form.status);
             fd.append("discount", JSON.stringify({
                 percentage: form.discountPercentage || 0,
@@ -145,63 +167,65 @@ export const useProducts = () => {
             }));
             form.images.forEach((img) => fd.append("images", img));
 
-            if (modal.type === "edit") {
+            if (modal.type === "create") {
+                fd.append("variantPrice", form.variantPrice);
+                fd.append("variantStock", form.variantStock || "0");
+                await createProductService(fd);
+                showAlert("success", `Producto "${form.name.trim()}" creado. Recuerda activarlo cuando este listo.`);
+            } else {
                 fd.append("keepImages", "true");
                 await updateProductService(modal.product._id, fd);
-            } else {
-                await createProductService(fd);
+                showAlert("success", `Producto "${form.name.trim()}" actualizado correctamente`);
             }
+
             await fetchAll();
             closeModal();
         } catch (err) {
             setFormErrors((prev) => ({ ...prev, general: err.message }));
+            showAlert("error", err.message);
         } finally {
             setSaving(false);
         }
     };
 
     const handleDelete = async () => {
-        setSaving(true);
-        try {
-            await deleteProductService(modal.product._id);
-            await fetchAll();
-            closeModal();
-        } catch (err) {
-            setFormErrors({ general: err.message });
-        } finally {
-            setSaving(false);
-        }
+        const productName = modal.product?.name;
+        const productId = modal.product?._id;
+        closeModal();
+        showAlert(
+            "delete",
+            `¿Eliminar "${productName}"? Esta accion tambien eliminara todas sus variantes y no se puede deshacer.`,
+            async () => {
+                try {
+                    await deleteProductService(productId);
+                    await fetchAll();
+                    showAlert("success", "Producto eliminado correctamente");
+                } catch (err) {
+                    showAlert("error", err.message);
+                }
+            }
+        );
     };
 
-    const handleToggleStatus = async (productId) => {
+    const handleToggleStatus = async (productId, productName) => {
         try {
             await toggleProductStatusService(productId);
             setProducts((prev) =>
                 prev.map((p) => p._id === productId ? { ...p, status: !p.status } : p)
             );
+            showAlert("success", `Estado de "${productName}" actualizado`);
         } catch (err) {
-            setError(err.message);
+            showAlert("error", err.message);
         }
     };
 
     return {
-        products,
-        categories,
-        loading,
-        error,
-        modal,
-        form,
-        formErrors,
-        saving,
-        openModal,
-        closeModal,
-        updateForm,
-        handleImageChange,
-        removePreview,
-        handleSave,
-        handleDelete,
-        handleToggleStatus,
-        getStockStatus,
-        STOCK_LOW,
+        products, categories, loading, error,
+        modal, form, formErrors, saving,
+        openModal, closeModal, updateForm,
+        handleImageChange, removePreview,
+        handleSave, handleDelete, handleToggleStatus,
+        getStockStatus, formatPrice, STOCK_LOW,
+        fetchAll,
     };
 };

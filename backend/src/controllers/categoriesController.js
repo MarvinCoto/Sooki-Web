@@ -122,7 +122,7 @@ categoriesController.remove = async (req, res) => {
         const category = await categoryModel.findOne({ _id: id, idStore: storeId });
         if (!category) return res.status(404).json({ message: "Category not found" });
 
-        // Verificar que no tiene productos asignados
+        // Verificar que la categoria no tiene productos
         const productsWithCategory = await productModel.countDocuments({ idCategory: id });
         if (productsWithCategory > 0) {
             return res.status(400).json({
@@ -130,7 +130,18 @@ categoriesController.remove = async (req, res) => {
             });
         }
 
-        // Si es padre, eliminar sus hijos primero
+        // Si es padre, verificar que sus hijos tampoco tienen productos
+        const children = await categoryModel.find({ parent: id, idStore: storeId });
+        for (const child of children) {
+            const childProducts = await productModel.countDocuments({ idCategory: child._id });
+            if (childProducts > 0) {
+                return res.status(400).json({
+                    message: `No se puede eliminar. La subcategoria "${child.name}" tiene ${childProducts} producto(s) asignado(s).`
+                });
+            }
+        }
+
+        // Si pasa todas las verificaciones, eliminar hijos y luego el padre
         await categoryModel.deleteMany({ parent: id, idStore: storeId });
         await categoryModel.deleteOne({ _id: id });
 

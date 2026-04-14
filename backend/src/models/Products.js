@@ -27,23 +27,12 @@ const productSchema = new Schema({
         type: [String],
         default: []
     },
-    basePrice: {
-        type: Number,
-        required: true,
-        min: [0, "Price cannot be negative"]
-    },
     discount: {
         percentage: {
             type: Number,
             min: 0,
             max: 100,
             default: 0
-        },
-        startDate: {
-            type: Date
-        },
-        endDate: {
-            type: Date
         },
         active: {
             type: Boolean,
@@ -52,7 +41,7 @@ const productSchema = new Schema({
     },
     status: {
         type: Boolean,
-        default: true
+        default: false  // inactivo hasta que el owner lo active
     }
 }, {
     timestamps: true
