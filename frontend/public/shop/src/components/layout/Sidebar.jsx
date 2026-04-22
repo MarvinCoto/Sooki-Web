@@ -13,12 +13,10 @@ const Sidebar = () => {
 
     return (
         <aside className="sidebar">
-            {/* Logo */}
             <div className="sidebar-logo">
                 <img src="/sooki-logo.png" alt="Sooki" className="sidebar-logo-img" />
             </div>
 
-            {/* Navigation */}
             <nav className="sidebar-nav">
                 <NavLink to="/dashboard" className={({ isActive }) => `sidebar-link ${isActive ? "active" : ""}`}>
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -51,9 +49,16 @@ const Sidebar = () => {
                     </svg>
                     <span>Categorias</span>
                 </NavLink>
+
+                <NavLink to="/mi-tienda" className={({ isActive }) => `sidebar-link ${isActive ? "active" : ""}`}>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                        <polyline points="9 22 9 12 15 12 15 22"/>
+                    </svg>
+                    <span>Mi Tienda</span>
+                </NavLink>
             </nav>
 
-            {/* Logout */}
             <button className="sidebar-logout" onClick={handleLogout}>
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>

@@ -5,14 +5,15 @@ import uploadProductImages from "../middlewares/uploadProductImages.js";
 
 const router = express.Router();
 
-//router.use(isStore);
-
-
-router.get("/", productsController.getAllProducts)
-router.get("/store", productsController.getAll);
+// Rutas publicas — sin autenticacion
+router.get("/", productsController.getAllProducts);
 router.get("/store/:storeId", productsController.getProductsByStore);
-router.get("/:id", productsController.getById);
+
+// Rutas protegidas — requieren isStore
 router.use(isStore);
+
+router.get("/store", productsController.getAll); // ahora tiene req.user
+router.get("/:id", productsController.getById);
 router.post("/", (req, res, next) => {
     uploadProductImages(req, res, (err) => {
         if (err) return res.status(400).json({ message: err.message });
