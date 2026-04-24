@@ -1,46 +1,15 @@
-// Reports Screen — Panel de reportes generales
-// Reports Screen — General reports panel
+// ReportsScreen.jsx
+// Pantalla de Reportes conectada al backend
+// Reports screen connected to backend
 
 import { useNavigate } from "react-router-dom";
 import logo from "../assets/sookiLogo.png";
+import { useReports } from "../hooks/useReports";
 import "../styles/reportsStyles.css";
-
-// ── Datos de ejemplo / Sample data ──
-// Reemplaza con datos reales de tu API / Replace with real API data
-const data = {
-  ventasTotales: "$1.000,00",
-  crecimiento: "+ 125",
-  usuarios: 250,
-  topTiendas: [
-    { nombre: "Tienda Nombre", valor: "$0.00" },
-    { nombre: "Tienda Nombre", valor: "$0.00" },
-    { nombre: "Tienda Nombre", valor: "$0.00" },
-    { nombre: "Tienda Nombre", valor: "$0.00" },
-  ],
-  topProductos: [
-    { nombre: "Tienda Nombre", valor: "$0.00" },
-    { nombre: "Tienda Nombre", valor: "$0.00" },
-    { nombre: "Tienda Nombre", valor: "$0.00" },
-    { nombre: "Tienda Nombre", valor: "$0.00" },
-  ],
-};
-
-// ── Datos de la gráfica / Chart data ──
-// Reemplaza con datos reales / Replace with real data
-const chartData = [
-  { mes: "Ene", valor: 200 },
-  { mes: "Feb", valor: 350 },
-  { mes: "Mar", valor: 280 },
-  { mes: "Abr", valor: 500 },
-  { mes: "May", valor: 420 },
-  { mes: "Jun", valor: 680 },
-  { mes: "Jul", valor: 750 },
-  { mes: "Ago", valor: 620 },
-  { mes: "Sep", valor: 900 },
-];
 
 export default function ReportsScreen() {
   const navigate = useNavigate();
+  const { stats, topStores, topProducts, growth, loading, error } = useReports();
 
   return (
     <div className="rep-page">
@@ -59,100 +28,104 @@ export default function ReportsScreen() {
         </button>
       </header>
 
-      {/* ── Contenido / Content ── */}
       <main className="rep-main">
-        <div className="rep-grid">
 
-          {/* ── Fila superior / Top row ── */}
+        {/* Estado de carga / Loading state */}
+        {loading && <p style={{ color: "rgba(220,210,200,0.4)", textAlign: "center" }}>Cargando reportes...</p>}
+        {error   && <p style={{ color: "#e07070", textAlign: "center" }}>{error}</p>}
 
-          {/* Tarjeta ventas totales / Total sales card */}
-          <div className="rep-card rep-card-ventas">
-            <p className="rep-card-label">Ventas totales de la plataforma</p>
-            <p className="rep-ventas-total">{data.ventasTotales}</p>
-            <p className="rep-crecimiento">
-              <span className="rep-flecha">▲</span>
-              {data.crecimiento}
-            </p>
-          </div>
+        {!loading && !error && (
+          <div className="rep-grid">
 
-          {/* Tarjeta usuarios / Users card */}
-          <div className="rep-card rep-card-usuarios">
-            <p className="rep-card-label">Usuarios</p>
-            <div className="rep-usuarios-row">
-              <p className="rep-usuarios-num">{data.usuarios}</p>
-              {/* Ícono usuario / User icon */}
-              <svg className="rep-usuario-icon" viewBox="0 0 24 24" fill="none">
-                <circle cx="12" cy="8" r="4" fill="rgba(205,140,70,0.85)" />
-                <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"
-                  fill="rgba(205,140,70,0.85)" />
-              </svg>
+            {/* ── Ventas totales / Total sales ── */}
+            <div className="rep-card rep-card-ventas">
+              <p className="rep-card-label">Ventas totales de la plataforma</p>
+              <p className="rep-ventas-total">$0.00</p>
+              <p className="rep-crecimiento">
+                <span className="rep-flecha">▲</span>
+                + {stats?.newClientsThisMonth || 0} clientes este mes
+              </p>
             </div>
-          </div>
 
-          {/* Tarjeta gráfica crecimiento mensual / Monthly growth chart card */}
-          <div className="rep-card rep-card-grafica">
-            <p className="rep-card-label">Crecimiento Mensual</p>
-            <AreaChart data={chartData} />
-          </div>
-
-          {/* ── Fila inferior / Bottom row ── */}
-
-          {/* Top tiendas / Top stores */}
-          <div className="rep-card rep-card-top">
-            <p className="rep-top-titulo">Top Tiendas</p>
-            <div className="rep-top-lista">
-              {data.topTiendas.map((item, i) => (
-                <div key={i} className="rep-top-row">
-                  <span className="rep-top-nombre">
-                    <span className="rep-top-num">{i + 1}-</span> {item.nombre}
-                  </span>
-                  <span className="rep-top-valor">{item.valor}</span>
-                </div>
-              ))}
+            {/* ── Usuarios / Users ── */}
+            <div className="rep-card rep-card-usuarios">
+              <p className="rep-card-label">Usuarios</p>
+              <div className="rep-usuarios-row">
+                <p className="rep-usuarios-num">{stats?.totalClients || 0}</p>
+                <svg className="rep-usuario-icon" viewBox="0 0 24 24" fill="none">
+                  <circle cx="12" cy="8" r="4" fill="rgba(205,140,70,0.85)" />
+                  <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" fill="rgba(205,140,70,0.85)" />
+                </svg>
+              </div>
             </div>
-          </div>
 
-          {/* Top productos / Top products */}
-          <div className="rep-card rep-card-top rep-card-productos">
-            <p className="rep-top-titulo">Top Productos</p>
-            <div className="rep-top-lista">
-              {data.topProductos.map((item, i) => (
-                <div key={i} className="rep-top-row">
-                  <span className="rep-top-nombre">
-                    <span className="rep-top-num">{i + 1}-</span> {item.nombre}
-                  </span>
-                  <span className="rep-top-valor">{item.valor}</span>
-                </div>
-              ))}
+            {/* ── Gráfica crecimiento / Growth chart ── */}
+            <div className="rep-card rep-card-grafica">
+              <p className="rep-card-label">Crecimiento Mensual</p>
+              {growth.length > 0
+                ? <AreaChart data={growth} />
+                : <p style={{ color: "rgba(220,210,200,0.3)", fontSize: "13px" }}>Sin datos aún</p>
+              }
             </div>
-          </div>
 
-        </div>
+            {/* ── Top Tiendas / Top Stores ── */}
+            <div className="rep-card rep-card-top">
+              <p className="rep-top-titulo">Top Tiendas</p>
+              <div className="rep-top-lista">
+                {topStores.length > 0
+                  ? topStores.map((item, i) => (
+                      <div key={i} className="rep-top-row">
+                        <span className="rep-top-nombre">
+                          <span className="rep-top-num">{i + 1}-</span> {item.storeName}
+                        </span>
+                        <span className="rep-top-valor">{item.totalProducts} productos</span>
+                      </div>
+                    ))
+                  : <p style={{ color: "rgba(220,210,200,0.3)", fontSize: "13px" }}>Sin datos aún</p>
+                }
+              </div>
+            </div>
+
+            {/* ── Top Productos / Top Products ── */}
+            <div className="rep-card rep-card-top">
+              <p className="rep-top-titulo">Top Productos</p>
+              <div className="rep-top-lista">
+                {topProducts.length > 0
+                  ? topProducts.map((item, i) => (
+                      <div key={i} className="rep-top-row">
+                        <span className="rep-top-nombre">
+                          <span className="rep-top-num">{i + 1}-</span> {item.productName}
+                        </span>
+                        <span className="rep-top-valor">${item.basePrice?.toFixed(2)}</span>
+                      </div>
+                    ))
+                  : <p style={{ color: "rgba(220,210,200,0.3)", fontSize: "13px" }}>Sin datos aún</p>
+                }
+              </div>
+            </div>
+
+          </div>
+        )}
       </main>
     </div>
   );
 }
 
-/* ─────────────────────────────────────────────────────────────────────────────
-   GRÁFICA DE ÁREA / AREA CHART — SVG puro / Pure SVG
-   ───────────────────────────────────────────────────────────────────────────── */
+/* ─── Gráfica de área / Area chart ── */
 function AreaChart({ data }) {
   const w = 340, h = 180, padX = 10, padY = 10;
-  const maxVal = Math.max(...data.map(d => d.valor));
-  const minVal = Math.min(...data.map(d => d.valor));
+  const valores = data.map(d => d.clientes);
+  const maxVal  = Math.max(...valores) || 1;
+  const minVal  = Math.min(...valores);
 
-  // Coordenadas de cada punto / Coordinates of each point
   const pts = data.map((d, i) => {
     const x = padX + (i / (data.length - 1)) * (w - padX * 2);
-    const y = padY + (1 - (d.valor - minVal) / (maxVal - minVal)) * (h - padY * 2);
+    const y = padY + (1 - (d.clientes - minVal) / (maxVal - minVal || 1)) * (h - padY * 2);
     return { x, y };
   });
 
-  // Path de la línea / Line path
-  const linePath = pts.map((p, i) => `${i === 0 ? "M" : "L"}${p.x},${p.y}`).join(" ");
-
-  // Path del área rellena / Filled area path
-  const areaPath = `${linePath} L${pts[pts.length - 1].x},${h} L${pts[0].x},${h} Z`;
+  const linePath  = pts.map((p, i) => `${i === 0 ? "M" : "L"}${p.x},${p.y}`).join(" ");
+  const areaPath  = `${linePath} L${pts[pts.length - 1].x},${h} L${pts[0].x},${h} Z`;
 
   return (
     <svg width={w} height={h} className="rep-chart-svg">
@@ -162,19 +135,12 @@ function AreaChart({ data }) {
           <stop offset="100%" stopColor="rgba(80,160,220,0.05)" />
         </linearGradient>
       </defs>
-
-      {/* Área rellena / Filled area */}
       <path d={areaPath} fill="url(#areaGrad)" />
-
-      {/* Línea / Line */}
       <path d={linePath} fill="none"
         stroke="rgba(80,160,220,0.9)" strokeWidth="2"
         strokeLinejoin="round" strokeLinecap="round" />
-
-      {/* Puntos / Dots */}
       {pts.map((p, i) => (
-        <circle key={i} cx={p.x} cy={p.y} r="3"
-          fill="rgba(80,160,220,1)" />
+        <circle key={i} cx={p.x} cy={p.y} r="3" fill="rgba(80,160,220,1)" />
       ))}
     </svg>
   );

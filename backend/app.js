@@ -13,7 +13,12 @@ import clientRoutes from "./src/routes/clients.js"
 import variantsRoutes from "./src/routes/variants.js";
 import myStoreRoutes from "./src/routes/myStore.js";
 
-//Creo una constante que es igual a la librería que importé
+// ── Rutas admin / Admin routes ──
+import adminClientsRoutes from "./src/routes/adminClients.js";
+import adminShopsRoutes from "./src/routes/adminShops.js";
+import adminReportsRoutes from "./src/routes/adminReports.js";
+
+// Creo una constante que es igual a la librería que importé
 const app = express();
 
 // ===== CORS =====
@@ -54,15 +59,13 @@ app.use((req, res, next) => {
 // ===== PARSERS =====
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
-// 3. Cookie parser
 app.use(cookieParser());
 
-// ===== RUTAS =====
+// ===== RUTAS EXISTENTES / EXISTING ROUTES =====
 app.use("/api/stores", storesRoutes);
 app.use("/api/products", productsRoutes);
 app.use("/api/categories", categoriesRoutes);
-app.use("/api/clients", clientRoutes)
+app.use("/api/clients", clientRoutes);
 app.use("/api/variants", variantsRoutes);
 app.use("/api/login", loginRoutes);
 app.use("/api/logout", logoutRoutes);
@@ -70,5 +73,10 @@ app.use("/api/registerClients", registerClientsRoutes);
 app.use("/api/recoveryPassword", recoveryPasswordRoutes);
 app.use("/api/mystore", myStoreRoutes);
 
-//Exporto la constante para poder usar express en otros archivos
+// ===== RUTAS ADMIN / ADMIN ROUTES =====
+app.use("/api/admin/clients", adminClientsRoutes);
+app.use("/api/admin/shops", adminShopsRoutes);
+app.use("/api/admin/reports", adminReportsRoutes);
+
+// Exporto la constante para poder usar express en otros archivos
 export default app;

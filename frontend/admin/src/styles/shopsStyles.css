@@ -343,3 +343,19 @@
   .tnd-layout { grid-template-columns: 1fr; }
   .tnd-productos-grid { grid-template-columns: repeat(2, 1fr); }
 }
+
+/* Estado de carga / Loading state */
+.tnd-loading {
+  color: rgba(220, 210, 200, 0.4);
+  font-size: 13px;
+  text-align: center;
+  padding: 20px 0;
+}
+
+/* Estado de error / Error state */
+.tnd-error {
+  color: #e07070;
+  font-size: 13px;
+  text-align: center;
+  padding: 10px 0;
+}
