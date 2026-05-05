@@ -7,7 +7,9 @@ const router = express.Router();
 
 // Rutas publicas — sin autenticacion
 router.get("/", productsController.getAllProducts);
+router.get("/public/:id", productsController.getPublicById);
 router.get("/store/:storeId", productsController.getProductsByStore);
+router.get("/category/:categoryId", productsController.getProductsByCategory);
 
 // Rutas protegidas — requieren isStore
 router.use(isStore);

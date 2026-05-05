@@ -132,6 +132,92 @@ productsController.getById = async (req, res) => {
   }
 };
 
+// GET público — un producto por ID con sus variantes y atributos
+productsController.getPublicById = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const product = await productModel
+      .findOne({ _id: id, status: true })
+      .populate("idCategory", "name")
+      .populate("idStore", "storeName logo");
+
+    if (!product)
+      return res.status(404).json({ message: "Product not found" });
+
+    const variants = await variantModel.find({ idProduct: id, status: true });
+
+    // Para cada variante traer sus atributos
+    const variantsWithAttrs = await Promise.all(
+      variants.map(async (variant) => {
+        const attrs = await variantAttributeModel
+          .find({ idVariant: variant._id })
+          .populate("idAttribute", "name")
+          .populate("idValue", "value");
+        return { ...variant.toObject(), attributes: attrs };
+      })
+    );
+
+    // Productos relacionados de la misma tienda
+    const related = await productModel
+      .find({
+        idStore: product.idStore._id,
+        status: true,
+        _id: { $ne: id },
+      })
+      .populate("idStore", "storeName logo")
+      .limit(4);
+
+    res.status(200).json({
+      ...product.toObject(),
+      variants: variantsWithAttrs,
+      related,
+    });
+  } catch (error) {
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+// GET público — productos por categoría
+productsController.getProductsByCategory = async (req, res) => {
+  try {
+    const { categoryId } = req.params;
+
+    const products = await productModel
+      .find({ idCategory: categoryId, status: true })
+      .populate("idCategory", "name")
+      .populate("idStore", "storeName logo")
+      .sort({ createdAt: -1 });
+
+    const result = await Promise.all(
+      products.map(async (product) => {
+        const variants = await variantModel.find({
+          idProduct: product._id,
+          status: true,
+        });
+        const activeVariants = variants.filter((v) => v.stock > 0);
+        if (activeVariants.length === 0) return null;
+
+        const minPrice = getMinPrice(variants);
+        const finalPrice = applyDiscount(minPrice, product.discount);
+        const totalStock = variants.reduce((sum, v) => sum + v.stock, 0);
+
+        return {
+          ...product.toObject(),
+          minPrice,
+          finalPrice,
+          totalStock,
+          variantCount: variants.length,
+        };
+      })
+    );
+
+    res.status(200).json(result.filter(Boolean));
+  } catch (error) {
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
 // POST — crear producto con variante inicial obligatoria
 productsController.create = async (req, res) => {
   try {

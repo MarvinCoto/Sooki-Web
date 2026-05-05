@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Heart, ShoppingCart, Star } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import './CardProduct.css';
 
 const CardProduct = ({
@@ -10,6 +11,7 @@ const CardProduct = ({
 }) => {
   const [quantity, setQuantity] = useState(1);
   const [isAddingToCart, setIsAddingToCart] = useState(false);
+  const navigate = useNavigate();
 
   const {
     name = 'Producto',
@@ -17,13 +19,11 @@ const CardProduct = ({
     basePrice = 0,
     finalPrice,
     discount,
-    idStore,
   } = product || {};
 
   const displayPrice = finalPrice ?? basePrice;
   const hasDiscount = discount?.active && discount?.percentage > 0;
-  const rating = 4.6; // TODO: conectar con ratings reales cuando existan
-
+  const rating = 4.6;
   const imageUrl = images?.[0] || null;
 
   const handleDecrease = () => setQuantity(q => Math.max(1, q - 1));
@@ -31,14 +31,21 @@ const CardProduct = ({
 
   const handleAddToCart = async () => {
     setIsAddingToCart(true);
-    if (onAddToCart) {
-      await onAddToCart(product, quantity);
-    }
+    if (onAddToCart) await onAddToCart(product, quantity);
     setTimeout(() => setIsAddingToCart(false), 600);
   };
 
+  const handleNavigate = () => {
+    if (product?._id) navigate(`/products/${product._id}`);
+  };
+
   return (
-    <div className="card-product">
+    
+    <div
+      className="card-product"
+      onClick={handleNavigate}
+      style={{ cursor: 'pointer' }}
+    >
       {/* Encabezado: rating + favorito */}
       <div className="card-product-top">
         <div className="card-product-rating">
@@ -47,10 +54,10 @@ const CardProduct = ({
         </div>
         <button
           className={`card-product-fav ${isFavorite ? 'active' : ''}`}
-          onClick={() => onToggleFavorite?.(product._id)}
+          onClick={(e) => { e.stopPropagation(); onToggleFavorite?.(product._id); }}
           title={isFavorite ? 'Quitar de favoritos' : 'Agregar a favoritos'}
         >
-          <Heart size={16} fill={isFavorite ? '#f97316' : 'none'} stroke={isFavorite ? '#f97316' : '#f97316'} />
+          <Heart size={16} fill={isFavorite ? '#f97316' : 'none'} stroke="#f97316" />
         </button>
       </div>
 
@@ -76,7 +83,6 @@ const CardProduct = ({
       {/* Info */}
       <div className="card-product-info">
         <p className="card-product-name">{name}</p>
-
         <div className="card-product-price-row">
           <span className="card-product-price">${displayPrice.toFixed(2)}</span>
           {hasDiscount && (
@@ -88,13 +94,19 @@ const CardProduct = ({
       {/* Controles */}
       <div className="card-product-controls">
         <div className="card-product-qty">
-          <button className="card-product-qty-btn" onClick={handleDecrease}>−</button>
+          <button
+            className="card-product-qty-btn"
+            onClick={(e) => { e.stopPropagation(); handleDecrease(); }}
+          >−</button>
           <span className="card-product-qty-value">{quantity}</span>
-          <button className="card-product-qty-btn" onClick={handleIncrease}>+</button>
+          <button
+            className="card-product-qty-btn"
+            onClick={(e) => { e.stopPropagation(); handleIncrease(); }}
+          >+</button>
         </div>
         <button
           className={`card-product-cart-btn ${isAddingToCart ? 'adding' : ''}`}
-          onClick={handleAddToCart}
+          onClick={(e) => { e.stopPropagation(); handleAddToCart(); }}
           title="Agregar al carrito"
         >
           <ShoppingCart size={17} />

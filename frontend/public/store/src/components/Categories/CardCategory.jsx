@@ -10,7 +10,7 @@ const CardCategory = ({ category }) => {
   return (
     <div
       className="card-category"
-      onClick={() => navigate(`/productos?categoria=${_id}`)}
+      onClick={() => navigate(`/categories/${_id}`)}
     >
       <div className="card-category-top">
         <span className="card-category-name">{name}</span>
@@ -18,19 +18,19 @@ const CardCategory = ({ category }) => {
       <div className="card-category-bottom">
         <ChevronRight size={18} className="card-category-arrow" />
         {image ? (
-    <img
-      src={image}
-      alt={name}
-      className="card-category-img"
-      onError={(e) => { e.target.src = 'https://res.cloudinary.com/deakzascp/image/upload/v1773539441/categorieSooki_r6ntvl.png'; }}
-    />
-    ) : (
-    <img
-      src="https://res.cloudinary.com/deakzascp/image/upload/v1773539441/categorieSooki_r6ntvl.png"
-      alt={name}
-      className="card-category-img"
-    />
-)}
+          <img
+            src={image}
+            alt={name}
+            className="card-category-img"
+            onError={(e) => { e.target.src = 'https://res.cloudinary.com/deakzascp/image/upload/v1773539441/categorieSooki_r6ntvl.png'; }}
+          />
+        ) : (
+          <img
+            src="https://res.cloudinary.com/deakzascp/image/upload/v1773539441/categorieSooki_r6ntvl.png"
+            alt={name}
+            className="card-category-img"
+          />
+        )}
       </div>
     </div>
   );
