@@ -9,6 +9,7 @@ const router = express.Router();
 router.get("/", productsController.getAllProducts);
 router.get("/public/:id", productsController.getPublicById);
 router.get("/store/:storeId", productsController.getProductsByStore);
+router.get("/category/:categoryId", productsController.getProductsByCategory);
 
 // Rutas protegidas — requieren isStore
 router.use(isStore);
