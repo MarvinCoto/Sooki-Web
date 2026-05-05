@@ -6,7 +6,7 @@ const categoriesController = {};
 //SELECT
 categoriesController.getAllCategories = async(req, res) => {
     try {
-        const categories = await categoriesModel.find().populate('idStore')
+        const categories = await categoryModel.find().populate('idStore')
         res.status(200).json(categories)
     } catch (error) {
         console.log("error" + error)

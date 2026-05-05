@@ -3,6 +3,7 @@ import { toast } from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import useFavorites from '../hooks/Favorites/useFavorites';
+import { useCartContext } from '../context/CartContext';
 import CardProduct from '../Components/Products/CardProduct';
 import useDataProducts from '../Hooks/Products/useDataProducts';
 import useDataCategories from '../Hooks/Categories/useDataCategories';
@@ -14,6 +15,7 @@ const Products = () => {
   const navigate = useNavigate();
   const { isLoggedIn, user } = useAuth();
   const { isFavorite, toggleFavorite } = useFavorites(isLoggedIn ? user?.id : null);
+  const { addItem } = useCartContext();
   const { products, loading: productsLoading, error: productsError } = useDataProducts();
   const { categories, loading: categoriesLoading } = useDataCategories();
 
@@ -172,7 +174,7 @@ const Products = () => {
                     key={product._id}
                     product={product}
                     isFavorite={isFavorite(product._id)}
-                    onAddToCart={(p, qty) => console.log('Carrito:', p.name, qty)}
+                    onAddToCart={(product, qty) => addItem(product, qty)}
                     onToggleFavorite={handleToggleFavorite}
                   />
                 ))}

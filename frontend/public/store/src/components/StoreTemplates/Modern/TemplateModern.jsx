@@ -2,6 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../../context/AuthContext";
 import useFavorites from "../../../hooks/Favorites/useFavorites";
+import { useCartContext } from '../../../context/CartContext';
 import { toast } from "react-hot-toast";
 import NavModern from "./NavModern";
 import CardModern from "./CardModern";
@@ -12,6 +13,7 @@ const TemplateModern = ({ store, products }) => {
   const { isLoggedIn, user } = useAuth();
   const navigate = useNavigate();
   const { isFavorite, toggleFavorite } = useFavorites(isLoggedIn ? user?.id : null);
+  const { addItem } = useCartContext();
 
   const [c1, c2, c3] = store.colors;
 
@@ -119,6 +121,13 @@ const TemplateModern = ({ store, products }) => {
                   product={p}
                   isFavorite={isFavorite(p._id)}
                   onToggleFavorite={() => handleToggleFavorite(p._id)}
+                  onAddToCart={(product, qty) => {
+                    const productWithStore = {
+                    ...product,
+                    idStore: product.idStore?._id || product.idStore || store._id
+                    };
+                    addItem(productWithStore, qty);
+                  }}
                 />
               ))}
             </div>

@@ -21,9 +21,11 @@ import PageNotFound from './pages/PageNotFound';
 import Profile from './pages/Profile';
 import Favorites from './pages/Favorites';
 import StoreDetails from './pages/StoreDetails';
+import Cart from './pages/Cart';
 
 // Contexts
 import { LoginLimitProvider } from './context/LoginLimitContext';
+import { CartProvider } from './context/CartContext';
 import { RecoveryProvider } from './context/RecoveryContext';
 import { AuthProvider } from './context/AuthContext';
 
@@ -71,6 +73,7 @@ const AppLayout = () => {
           <Route path="/profile" element={<PrivateRoute><Profile /></PrivateRoute>} />
           <Route path="/favorites" element={<Favorites />} />
           <Route path="/stores/:id" element={<StoreDetails />} />
+          <Route path="/cart" element={<Cart />} />
 
           {/* 404 */}
           <Route path="*" element={<PageNotFound />} />
@@ -88,7 +91,9 @@ function App() {
       <LoginLimitProvider>
         <RecoveryProvider>
           <AuthProvider>
+            <CartProvider>
             <AppLayout />
+          </CartProvider>
             <Toaster position="top-right" toastOptions={{ duration: 3000 }} />
           </AuthProvider>
         </RecoveryProvider>

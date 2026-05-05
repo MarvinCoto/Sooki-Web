@@ -7,6 +7,7 @@ import CardProduct from '../Components/Products/CardProduct';
 import useDataStores from '../Hooks/Stores/useDataStores';
 import useDataProducts from '../Hooks/Products/useDataProducts';
 import useFavorites from '../hooks/Favorites/useFavorites';
+import { useCartContext } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
 import './Home.css';
 
@@ -48,6 +49,7 @@ const Home = () => {
   const { stores, loading: storesLoading, error: storesError } = useDataStores();
   const { products, loading: productsLoading, error: productsError } = useDataProducts();
   const { isFavorite, toggleFavorite } = useFavorites(isLoggedIn ? user?.id : null);
+  const { addItem } = useCartContext();
 
   /* ─── Auto-play slider ─── */
   useEffect(() => {
@@ -159,7 +161,7 @@ const Home = () => {
                     key={product._id}
                     product={product}
                     isFavorite={isFavorite(product._id)}
-                    onAddToCart={(p, qty) => console.log('Carrito:', p.name, qty)}
+                    onAddToCart={(product, qty) => addItem(product, qty)}
                     onToggleFavorite={handleToggleFavorite}
                   />
                 ))
@@ -185,7 +187,7 @@ const Home = () => {
                   key={product._id}
                   product={product}
                   isFavorite={isFavorite(product._id)}
-                  onAddToCart={(p, qty) => console.log('Carrito:', p.name, qty)}
+                  onAddToCart={(product, qty) => addItem(product, qty)}
                   onToggleFavorite={handleToggleFavorite}
                 />
               ))}

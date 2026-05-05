@@ -9,6 +9,7 @@ import recoveryPasswordRoutes from "./src/routes/recoveryPassword.js"
 import storesRoutes from "./src/routes/stores.js";
 import productsRoutes from "./src/routes/products.js"
 import categoriesRoutes from "./src/routes/categories.js"
+import cartRoutes from "./src/routes/cart.js"
 import clientRoutes from "./src/routes/clients.js"
 import variantsRoutes from "./src/routes/variants.js";
 import myStoreRoutes from "./src/routes/myStore.js";
@@ -65,6 +66,7 @@ app.use(cookieParser());
 app.use("/api/stores", storesRoutes);
 app.use("/api/products", productsRoutes);
 app.use("/api/categories", categoriesRoutes);
+app.use("/api/cart", cartRoutes);
 app.use("/api/clients", clientRoutes);
 app.use("/api/variants", variantsRoutes);
 app.use("/api/login", loginRoutes);
