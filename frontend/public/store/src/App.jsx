@@ -22,6 +22,7 @@ import Profile from './pages/Profile';
 import Favorites from './pages/Favorites';
 import StoreDetails from './pages/StoreDetails';
 import Cart from './pages/Cart';
+import ProductDetail from './pages/ProductDetail';
 
 // Contexts
 import { LoginLimitProvider } from './context/LoginLimitContext';
@@ -74,6 +75,7 @@ const AppLayout = () => {
           <Route path="/favorites" element={<Favorites />} />
           <Route path="/stores/:id" element={<StoreDetails />} />
           <Route path="/cart" element={<Cart />} />
+          <Route path="/products/:id" element={<ProductDetail />} />
 
           {/* 404 */}
           <Route path="*" element={<PageNotFound />} />

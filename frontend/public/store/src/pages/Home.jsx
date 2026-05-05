@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { ChevronLeft, ChevronRight, ArrowRight } from 'lucide-react';
 import { toast } from 'react-hot-toast';
 import CardStore from '../components/Stores/CardStoreHome';
-import CardProduct from '../Components/Products/CardProduct';
+import CardProduct from '../components/Products/CardProduct';
 import useDataStores from '../Hooks/Stores/useDataStores';
 import useDataProducts from '../Hooks/Products/useDataProducts';
 import useFavorites from '../hooks/Favorites/useFavorites';

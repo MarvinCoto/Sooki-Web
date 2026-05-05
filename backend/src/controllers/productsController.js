@@ -132,6 +132,52 @@ productsController.getById = async (req, res) => {
   }
 };
 
+// GET público — un producto por ID con sus variantes y atributos
+productsController.getPublicById = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const product = await productModel
+      .findOne({ _id: id, status: true })
+      .populate("idCategory", "name")
+      .populate("idStore", "storeName logo");
+
+    if (!product)
+      return res.status(404).json({ message: "Product not found" });
+
+    const variants = await variantModel.find({ idProduct: id, status: true });
+
+    // Para cada variante traer sus atributos
+    const variantsWithAttrs = await Promise.all(
+      variants.map(async (variant) => {
+        const attrs = await variantAttributeModel
+          .find({ idVariant: variant._id })
+          .populate("idAttribute", "name")
+          .populate("idValue", "value");
+        return { ...variant.toObject(), attributes: attrs };
+      })
+    );
+
+    // Productos relacionados de la misma tienda
+    const related = await productModel
+      .find({
+        idStore: product.idStore._id,
+        status: true,
+        _id: { $ne: id },
+      })
+      .populate("idStore", "storeName logo")
+      .limit(4);
+
+    res.status(200).json({
+      ...product.toObject(),
+      variants: variantsWithAttrs,
+      related,
+    });
+  } catch (error) {
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
 // POST — crear producto con variante inicial obligatoria
 productsController.create = async (req, res) => {
   try {
