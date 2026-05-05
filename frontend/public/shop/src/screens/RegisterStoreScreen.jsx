@@ -4,8 +4,10 @@ import RegisterForm from "../components/registerStore/RegisterForm";
 import Step4VerifyEmail from "../components/registerStore/Step4VerifyEmail";
 import PendingApprovalScreen from "../components/registerStore/PendingApprovalScreen";
 import "../styles/registerStore.css";
+import { useNavigate } from "react-router-dom";
 
 const RegisterStoreScreen = () => {
+    const navigate = useNavigate();
     const {
         stage,
         loading,
@@ -72,6 +74,16 @@ const RegisterStoreScreen = () => {
                         {loading ? "Enviando..." : "Enviar Solicitud"}
                     </button>
                 </div>
+                <p style={{ textAlign: "center", marginTop: "16px", fontSize: "0.875rem", color: "var(--text-muted)" }}>
+                    ¿Ya tienes una cuenta?{" "}
+                    <button
+                        type="button"
+                        onClick={() => navigate("/login")}
+                        style={{ background: "none", border: "none", cursor: "pointer", color: "var(--navy)", fontWeight: "700", fontSize: "0.875rem", padding: 0 }}
+                    >
+                        Inicia sesion aqui
+                    </button>
+                </p>
 
             </div>
         </div>
