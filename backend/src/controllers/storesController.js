@@ -195,8 +195,10 @@ storeController.approveStore = async (req, res) => {
         await sendApprovalEmail(owner.email, owner.ownerName, credentialsLink);
         res.status(200).json({ message: "Owner approved and email sent" });
     } catch (error) {
+        console.error("Error en approveStore:", error);
         res.status(500).json({ message: "Error approving store", error: error.message });
     }
+    
 };
 
 // GET /setup-credentials?token=...

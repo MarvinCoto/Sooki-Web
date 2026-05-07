@@ -10,6 +10,7 @@ import FinanceScreen   from "./screens/FinanceScreen";
 import ShopsScreen     from "./screens/ShopsScreen";
 import ReportsScreen   from "./screens/ReportsScreen";
 import UsersScreen     from "./screens/UsersScreen";
+import RequestsScreen  from "./screens/RequestsScreen";
 
 // Ruta protegida — solo admins / Protected route — admins only
 function ProtectedRoute({ children }) {
@@ -26,7 +27,6 @@ function ProtectedRoute({ children }) {
     </div>
   );
 
-  // Si no hay admin redirige al login / If no admin redirect to login
   return admin ? children : <Navigate to="/" replace />;
 }
 
@@ -42,6 +42,7 @@ function AppRoutes() {
       <Route path="/shops"     element={<ProtectedRoute><ShopsScreen /></ProtectedRoute>} />
       <Route path="/reports"   element={<ProtectedRoute><ReportsScreen /></ProtectedRoute>} />
       <Route path="/users"     element={<ProtectedRoute><UsersScreen /></ProtectedRoute>} />
+      <Route path="/requests"  element={<ProtectedRoute><RequestsScreen /></ProtectedRoute>} />
     </Routes>
   );
 }
